@@ -3,7 +3,7 @@ from datetime import timedelta
 from django import template
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.generic.list_detail import object_list
+from django.views.generic.list import ListView as object_list
 from django.template.context import RequestContext
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.utils import timezone
