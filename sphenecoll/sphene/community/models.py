@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import fields as generic
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.db import connection
 from django.db.models.signals import post_save, post_delete
