@@ -1,4 +1,5 @@
-from django.db.models import signals, get_apps, get_models
+#from django.db.models import signals, get_apps, get_models
+from django.apps import apps
 from django.conf import settings
 
 
@@ -166,7 +167,7 @@ def __init_category_types():
             #print "We found categorytypes in %s" % app_name
 
 
-#    apps = get_apps()
+#    apps = apps.get_apps()
 #    for app in apps:
 #        try:
 #            app.categorytypes
