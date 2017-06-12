@@ -1,10 +1,13 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.contrib.auth.models import User
-from django.db.models import get_apps, get_models
+#from django.db.models import get_apps, get_models
+from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 
 from sphene.community.signals import profile_edit_init_form
+
+
 
 
 class Separator(forms.Field):
@@ -55,9 +58,9 @@ class EditProfileForm(forms.Form):
 def get_object_type_choices():
     ret = list()
     ret.append( ('', _(u'-- Select Object Type --')) )
-    apps = get_apps()
+    apps = apps.get_apps()
     for app in apps:
-        ms = get_models(app)
+        ms = apps.get_models(app)
         for m in ms:
             if hasattr(m.objects, 'rolemember_limitation_objects'):
                 ret.append( (ContentType.objects.get_for_model(m).id, m._meta.object_name) )
@@ -77,9 +80,9 @@ def get_object_id_choices(object_type, group):
 def get_permission_flag_choices():
     ret = list()
 
-    apps = get_apps()
+    apps = apps.get_apps()
     for app in apps:
-        ms = get_models(app)
+        ms = apps.get_models(app)
         for klass in ms:
             if hasattr(klass, 'sph_permission_flags'):
                 sph_permission_flags = klass.sph_permission_flags
