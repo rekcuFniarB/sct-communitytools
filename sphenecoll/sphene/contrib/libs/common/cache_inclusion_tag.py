@@ -11,12 +11,25 @@ from functools import partial
 
 from django.core.cache import cache
 from django import template
-from django.template.base import TagHelperNode, Template, generic_tag_compiler
+from django.template.base import Template
+from django.template.library import TagHelperNode
 from django.utils.functional import curry
 from inspect import getargspec
 from django.utils.itercompat import is_iterable
 
 __all__ = ['cache_inclusion_tag']
+
+
+def generic_tag_compiler(parser, token, params, varargs, varkw, defaults,
+                         name, takes_context, node_class):
+    """
+    Returns a template.Node subclass.
+    Copied from https://django.readthedocs.io/en/1.8.x/_modules/django/template/base.html
+    """
+    bits = token.split_contents()[1:]
+    args, kwargs = parse_bits(parser, bits, params, varargs, varkw,
+                              defaults, takes_context, name)
+    return node_class(takes_context, args, kwargs)
 
 def cache_inclusion_tag(self, file_name, cache_key_func=None, cache_time=99999, context_class=template.Context,  takes_context=False, name=None):
     """
