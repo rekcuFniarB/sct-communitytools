@@ -3,7 +3,7 @@ from copy import deepcopy
 import itertools
 
 from django.template.loader import render_to_string
-from django.utils import simplejson
+import simplejson
 from django.utils.datastructures import SortedDict
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy
