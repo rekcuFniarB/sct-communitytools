@@ -4,7 +4,7 @@ from time import time
 import logging
 
 from django.conf import settings
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
