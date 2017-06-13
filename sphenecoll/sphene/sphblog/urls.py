@@ -19,8 +19,7 @@ urlpatterns = [
                               'noGroup': True,
                               },
                             name = 'sphblog-feeds'),
-                       ]
-urlpatterns.extend([
+
                        url(r'^$', sphblog_views.blogindex, name='sphblog_index'),
                        url(r'^postthread/$', sphblog_views.postthread, name = 'sphblog_postthread'),
                        url(r'^tag/(?P<tag_name>\w+)/(?:page/(?P<page>\d+)/)?$', sphblog_views.show_tag_posts, name = 'sphblog_show_tag_posts'),
@@ -37,6 +36,6 @@ urlpatterns.extend([
                        url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<slug>.*)/$', sphblog_views.show_thread_redirect),
                        url(r'^(?P<category_id>\d+)/$', sphblog_views.blogindex_redirect, name='sphblog_category_index'),
                        url(r'^(?P<category_slug>[\w\-]+)/$', sphblog_views.blogindex, name='sphblog_category_index_slug'),
-                       (r'^(?P<category_slug>[\w\-]+?)/(?P<slug>[\w\-]+)/$', sphblog_views.show_thread),
-                ])
+                       url(r'^(?P<category_slug>[\w\-]+?)/(?P<slug>[\w\-]+)/$', sphblog_views.show_thread),
+                ]
 
