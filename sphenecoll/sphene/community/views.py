@@ -21,7 +21,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _, ugettext, ugettext_lazy
-from django.views.generic.list_detail import object_list
+from django.views.generic.list import ListView as object_list
 from django.core.urlresolvers import reverse
 
 from sphene.community import PermissionDenied, sphsettings
