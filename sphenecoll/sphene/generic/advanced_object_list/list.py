@@ -4,7 +4,7 @@ import itertools
 
 from django.template.loader import render_to_string
 import simplejson
-from django.utils.datastructures import SortedDict
+from collections import OrderedDict as SortedDict
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy
 

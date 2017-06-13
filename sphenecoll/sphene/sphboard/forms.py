@@ -24,6 +24,7 @@ class PollForm(forms.ModelForm):
 
     class Meta:
         model = Poll
+        fields = ('question',)
 
 
 class PollChoiceForm(forms.ModelForm):
@@ -52,7 +53,7 @@ class PostModelForm(forms.ModelForm):
 
     class Meta:
         model = Post
-
+        fields = ('subject', 'body', 'markup')
 
 class PostForm(forms.Form):
     subject = forms.CharField( label = _(u"Subject" ) )
