@@ -5,7 +5,7 @@ from time import time
 from urllib import quote, unquote
 from hashlib import md5
 
-from django.utils import simplejson
+import simplejson
 
 from django import forms
 from django.conf import settings
