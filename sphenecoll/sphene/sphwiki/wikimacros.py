@@ -1,4 +1,4 @@
-from django.views.generic.list_detail import object_list
+from django.views.generic.list import ListView as object_list
 from django import template
 
 from sphene.contrib.libs.markdown import mdx_macros
