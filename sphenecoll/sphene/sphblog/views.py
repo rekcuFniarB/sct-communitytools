@@ -4,7 +4,7 @@
 
 #doinit()
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, Http404
 from django.db.models import Q
@@ -122,9 +122,7 @@ def blogindex(request, group, category_id = None, category_slug = None, page = 1
                                       category_slug = category_slug,
                                       group = group)
     if not category_info:
-        return render_to_response('sphene/sphblog/nocategory.html',
-                                  {},
-                                  context_instance = RequestContext(request))
+        return render(request, 'sphene/sphblog/nocategory.html')
     context_variables = {}
     if year:
         context_variables['archive_year'] = year
@@ -153,9 +151,8 @@ def blogindex(request, group, category_id = None, category_slug = None, page = 1
                               'group': group,
                               })
 
-    return render_to_response( 'sphene/sphblog/blogindex.html',
-                               context_variables,
-                               context_instance = RequestContext(request) )
+    return render(request, 'sphene/sphblog/blogindex.html',
+                               context_variables)
 
 def show_tag_posts(request, group, tag_name, page = 1):
     categories = get_board_categories(group)
@@ -164,8 +161,7 @@ def show_tag_posts(request, group, tag_name, page = 1):
         page = 1
 
     if not categories:
-        return render_to_response( 'sphene/sphblog/nocategory.html',{},
-                                   context_instance = RequestContext(request) )
+        return render(request, 'sphene/sphblog/nocategory.html')
 
     tag = get_object_or_404(Tag, group = group,
                             name__exact = tag_name )
@@ -173,13 +169,12 @@ def show_tag_posts(request, group, tag_name, page = 1):
     threads = tag_get_models_by_tag( threads, tag )
     paged_threads = get_paged_objects(threads, page)
 
-    return render_to_response( 'sphene/sphblog/blogindex.html',
+    return render(request, 'sphene/sphblog/blogindex.html',
                                { 'threads': paged_threads,
                                  'tag': tag,
                                  'group': group,
                                  'categories': categories,
-                                 },
-                               context_instance = RequestContext(request) )
+                                 })
 
 
 def postthread(request, group):
