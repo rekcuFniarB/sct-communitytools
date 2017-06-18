@@ -18,6 +18,8 @@ from sphene.community import PermissionDenied
 from sphene.community.models import Group
 from sphene.community.sphsettings import get_sph_setting
 
+from django.utils.deprecation import MiddlewareMixin
+
 logger = logging.getLogger('sphene.community.middleware')
 
 
@@ -95,7 +97,7 @@ class MultiHostMiddleware:
         except KeyError:
             pass # use default urlconf
 
-class GroupMiddleware(object):
+class GroupMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
         request.attributes = { }
         if 'urlPrefix' in view_kwargs:
@@ -180,7 +182,7 @@ def set_current_group(group):
 def get_current_sphdata():
     return getattr(_thread_locals, 'sphdata', None)
     
-class ThreadLocals(object):
+class ThreadLocals(MiddlewareMixin):
     """Middleware that gets various objects from the
     request object and saves them in thread local storage."""
     def process_request(self, request):
