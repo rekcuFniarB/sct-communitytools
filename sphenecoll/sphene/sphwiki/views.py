@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import widgets, ModelForm
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.list import ListView as object_list
 from django.template import loader
 from django.template.context import RequestContext
@@ -20,7 +20,7 @@ from sphene.sphwiki.models import WikiSnip, WikiSnipChange, WikiAttachment
 from sphene.community import PermissionDenied, sphutils
 from sphene.community.sphutils import get_sph_setting
 from sphene.community.middleware import get_current_sphdata, get_current_user
-from sphene.community.models import Tag, TagLabel, TaggedItem, tag_set_labels, tag_get_labels, tag_get_models_by_tag
+from sphene.community.models import Tag, TagLabel, TaggedItem, tag_set_labels, tag_get_labels, tag_get_models_by_tag, Group
 from sphene.community.fields import TagField
 from sphene.community.widgets import TagWidget
 
@@ -32,11 +32,12 @@ import os
 def showSnip(request, group, snipName):
     snip_rendered_body = None
     status = None
+    wiki_group = Group.objects.get(name = group)
     try:
-        snip = WikiSnip.objects.get( group = group,
+        snip = WikiSnip.objects.get( group = wiki_group,
                                      name__exact = snipName )
     except WikiSnip.DoesNotExist:
-        snip = WikiSnip( name = snipName, group = group )
+        snip = WikiSnip( name = snipName, group = wiki_group )
         status = 404
 
     if not snip.has_view_permission():
@@ -66,14 +67,14 @@ def showSnip(request, group, snipName):
             
         if sphdata != None: sphdata['subtitle'] = snip.title or snip.name
     
-        res = render_to_response( 'sphene/sphwiki/showSnip.html',
+        res = render(request, 'sphene/sphwiki/showSnip.html',
                                   { 'snip': snip,
                                     'snipName' : snipName,
                                     'snip_rendered_body': snip_rendered_body,
                                     'redirects': redirects,
                                     'commentstemplate': 'sphene.sphcomments' in settings.INSTALLED_APPS and 'sphene/sphwiki/wikicomments.html' or 'sphene/sphwiki/wikicomments_unavailable.html',
-                                    },
-                                  context_instance = RequestContext(request) )
+                                  }
+                    )
 
     if status is not None:
         res.status_code = status
@@ -178,9 +179,8 @@ def diff(request, group, snipName, changeId = None):
     args['diffTable'] = mark_safe(diffTable)
     args['fromchange'] = changeStart
     args['tochange'] = changeEnd
-    return render_to_response( 'sphene/sphwiki/diff.html',
-                               args,
-                               context_instance = RequestContext(request) )
+    return render(request, 'sphene/sphwiki/diff.html',
+                               args)
 
     
 def attachment(request, group, snipName):
@@ -248,11 +248,11 @@ def attachmentEdit(request, group, snipName, attachmentId = None):
     else:
         form = AttachmentFormNew(instance=attachment)
 
-    return render_to_response( 'sphene/sphwiki/editAttachment.html',
+    return render(request, 'sphene/sphwiki/editAttachment.html',
                                { 'form': form,
                                  'snipName' : snipName,
-                                 },
-                               context_instance = RequestContext(request) )
+                                 }
+                 )
 
 
 class CaptchaEditBaseForm(forms.BaseForm):
