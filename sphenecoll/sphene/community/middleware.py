@@ -23,7 +23,7 @@ from django.utils.deprecation import MiddlewareMixin
 logger = logging.getLogger('sphene.community.middleware')
 
 
-def my_get_current(self):
+def my_get_current(self, *args, **kwargs):
     try:
         group = get_current_group()
     except AttributeError, e:
