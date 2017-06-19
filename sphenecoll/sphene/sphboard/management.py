@@ -1,4 +1,5 @@
-from django.db.models import get_app, get_models
+#from django.db.models import get_app, get_models
+from django.apps import apps as DjangoApps
 from sphene.sphboard import models
 from django.conf import settings
 import os
@@ -48,8 +49,8 @@ def synchronize_threadinformation(verbosity = -1):
 # handle both post_syncdb and post_migrate (if south is used)
 def syncdb_compat(app_label, handler=None, *args, **kwargs):
     if app_label=='sphboard':
-        app = get_app(app_label)
-        models = get_models(app)
+        app = DjangoApps.get_app_config(app_label)
+        models = app.models
         handler(app=app, created_models=models, verbosity=1, **kwargs)
 
 def syncdb_compat_init_data(app, *args, **kwargs):
@@ -59,5 +60,5 @@ if 'south' in settings.INSTALLED_APPS:
     from south.signals import post_migrate
     post_migrate.connect(syncdb_compat_init_data)
 else:
-    from django.db.models.signals import post_syncdb
-    post_syncdb.connect(init_data, sender=models)
+    from django.db.models.signals import post_migrate
+    post_migrate.connect(init_data, sender=models)

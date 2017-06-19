@@ -1,4 +1,5 @@
-from django.db.models import signals, get_app, get_apps, get_models
+from django.db.models import signals
+from django.apps import apps as DjangoApps
 from sphene.community import models
 from django.conf import settings
 
@@ -42,7 +43,7 @@ def init_data(app, created_models, verbosity, **kwargs):
                                    renderstring = '<a href="%(value)s">%(value)s</a>', ).save()
 
 
-from django.db import backend, connection, transaction
+#from django.db import backend, connection, transaction
 from sphene.community.models import PermissionFlag, Role, Group
 from sphene.community.models import ApplicationChangelog
 
@@ -58,8 +59,8 @@ def create_permission_flags(app, created_models, verbosity, **kwargs):
     context.
     """
 
-    for myapp in get_apps():
-        app_models = get_models(myapp)
+    for myapp in DjangoApps.get_app_configs():
+        app_models = DjangoApps.get_app_config(myapp).models
         if not app_models:
             continue
 
@@ -98,8 +99,8 @@ def create_permission_flags(app, created_models, verbosity, **kwargs):
 # handle both post_syncdb and post_migrate (if south is used)
 def syncdb_compat(app_label, handler=None, *args, **kwargs):
     if app_label=='community':
-        app = get_app(app_label)
-        models = get_models(app)
+        app = DjangoApps.get_app_config(app_label)
+        models = app.models
         handler(app=app, created_models=models, verbosity=1, **kwargs)
 
 def syncdb_compat_init_data(app, *args, **kwargs):
@@ -113,6 +114,6 @@ if 'south' in settings.INSTALLED_APPS:
     post_migrate.connect(syncdb_compat_init_data, dispatch_uid="communitytools.sphenecoll.sphene.community.management")
     post_migrate.connect(syncdb_compat_create_permission_flags)
 else:
-    from django.db.models.signals import post_syncdb
-    post_syncdb.connect(init_data, sender=models, dispatch_uid="communitytools.sphenecoll.sphene.community.management")
-    post_syncdb.connect(create_permission_flags)
+    from django.db.models.signals import post_migrate
+    post_migrate.connect(syncdb_compat_init_data, sender=models, dispatch_uid="communitytools.sphenecoll.sphene.community.management")
+    post_migrate.connect(syncdb_compat_create_permission_flags, sender=models)
