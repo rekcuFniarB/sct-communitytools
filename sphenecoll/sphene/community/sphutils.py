@@ -284,5 +284,3 @@ def include_css(csspath, prefix = None):
         prefix = settings.STATIC_URL
     styleincludes.append(prefix + csspath)
     sphsettings.set_sph_setting( 'community_styleincludes', styleincludes )
-
-

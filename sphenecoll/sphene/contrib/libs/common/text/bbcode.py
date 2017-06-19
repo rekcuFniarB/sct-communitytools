@@ -70,6 +70,8 @@ import re
 #from cciw.apps.cciw.settings import CCIW_MEDIA_ROOT
 from sphene.community.sphutils import render_blockquote, get_sph_setting
 from django.conf import settings 
+from django.apps import apps as DjangoApps
+
 EMOTICONS_ROOT = get_sph_setting('board_emoticons_root')
 
 ##### UTILITY FUNCTIONS #####
@@ -365,17 +367,18 @@ _TAGS = (
         html_equiv='li')
 )
 
-# Make a dictionary
-_TAGDICT = {}
-for t in _TAGS:
-    if t.name != 'text':
-        _TAGDICT[t.name] = t
-
-# Make list of valid tags
-_TAGNAMES = [t.name for t in _TAGS]
-
-_EMOTICONS = get_sph_setting('board_emoticons_list')
-_EMOTICON_LIST = _EMOTICONS.keys();
+if DjangoApps.ready:
+    # Make a dictionary
+    _TAGDICT = {}
+    for t in _TAGS:
+        if t.name != 'text':
+            _TAGDICT[t.name] = t
+    
+    # Make list of valid tags
+    _TAGNAMES = [t.name for t in _TAGS]
+    
+    _EMOTICONS = get_sph_setting('board_emoticons_list')
+    _EMOTICON_LIST = _EMOTICONS.keys();
 
 ###### PARSING CLASSES AND FUNCTIONS ######
 class BBNode:
