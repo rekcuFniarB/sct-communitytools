@@ -1,24 +1,31 @@
-#from django.db.models import get_app, get_models
-from django.apps import apps as DjangoApps
-from sphene.sphboard import models
 from django.conf import settings
 import os
 
-def init_data(app, created_models, verbosity, **kwargs):
-    from sphene.community.models import Group
+def init_data(sender, verbosity, **kwargs):
+    from sphene.community.models import Group, Navigation, CommunityUserProfileField
     from sphene.sphboard.models import Category, ThreadInformation
     os.environ['sph_init_data'] = 'true'
-    if Category in created_models:
-        group, created = Group.objects.get_or_create( name = 'example',
-                                                      longname = 'Example Group',
-                                                      baseurl = 'www.example.com', )
+    sphsettings = {}
+    if hasattr(settings, 'SPH_SETTINGS'):
+        sphsettings = settings.SPH_SETTINGS
+    sphsettings_group = sphsettings.get('group', {})
+    group_name = sphsettings_group.get('name', 'main')
+    group_longname = sphsettings_group.get('longname')
+    group_baseurl = sphsettings_group.get('baseurl', 'www.example.com')
+    
+    sender_models = sender.get_models()
+    
+    if Category in sender_models:
+        group, created = Group.objects.get_or_create( name = group_name,
+                                                      longname = group_longname,
+                                                      baseurl = group_baseurl )
 
         category, created = Category.objects.get_or_create( name = 'Example Category',
                                                    group = group,
                                                    description = 'This is just an example Category. You can modify categories in the django admin interface.',
                              )
 
-    if ThreadInformation in created_models:
+    if ThreadInformation in sender_models:
         # Synchronize ThreadInformation with all posts ..
         # (Required for backward compatibility)
         synchronize_threadinformation(verbosity)
@@ -46,19 +53,6 @@ def synchronize_threadinformation(verbosity = -1):
         thread_info.save()
 
 
-# handle both post_syncdb and post_migrate (if south is used)
-def syncdb_compat(app_label, handler=None, *args, **kwargs):
-    if app_label=='sphboard':
-        app = DjangoApps.get_app_config(app_label)
-        models = app.models
-        handler(app=app, created_models=models, verbosity=1, **kwargs)
 
-def syncdb_compat_init_data(app, *args, **kwargs):
-    syncdb_compat(app, handler=init_data, *args, **kwargs)
-
-if 'south' in settings.INSTALLED_APPS:
-    from south.signals import post_migrate
-    post_migrate.connect(syncdb_compat_init_data)
-else:
-    from django.db.models.signals import post_migrate
-    post_migrate.connect(init_data, sender=models)
+from django.db.models.signals import post_migrate
+post_migrate.connect(init_data)
