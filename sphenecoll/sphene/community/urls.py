@@ -12,7 +12,7 @@ urlpatterns = [
                        url(r'accounts/forgot/$', communityViews.accounts_forgot),
                        url(r'profile/(?P<user_id>\d+)/$', communityViews.profile, name='sphene-community-profile'),
                        url(r'profile/edit/$', communityViews.profile_edit_mine),
-                       url(r'profile/edit/(?P<user_id>\d+)/$', communityViews.profile_edit),
+                       url(r'profile/edit/(?P<user_id>\d+)/$', communityViews.profile_edit, name='sphene-community-profile-edit'),
                        url(r'profile/(?P<user_id>\d+)/reveal_address/$', communityViews.reveal_emailaddress, name = 'sph_reveal_emailaddress',),
 
                        url(r'admin/permission/role/list/$', communityViews.admin_permission_role_list, name = 'community_admin_permission_role_list'),
