@@ -283,7 +283,7 @@ class SphURLNode(Node):
             if settings.SETTINGS_MODULE:
                 project_name = settings.SETTINGS_MODULE.split('.')[0]
                 try:
-                    url = sph_reverse(project_name + '.' + self.view_name,
+                    url = sph_reverse(project_name + '.' + str(self.view_name),
                                        args=args, kwargs=kwargs)
                 except NoReverseMatch:
                     if self.asvar is None:
