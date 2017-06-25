@@ -3,7 +3,7 @@ import logging
 
 from django.conf import settings
 from django.core import exceptions
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render_to_response
 from django.template import loader
 from django.utils.translation import ugettext as _

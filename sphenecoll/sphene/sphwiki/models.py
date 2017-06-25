@@ -171,31 +171,31 @@ class WikiSnip(models.Model):
         return '%s (%s)' % (self.name, self.group.name)
 
     def get_absolute_url(self):
-        return ('sphene.sphwiki.views.showSnip', (), { 'groupName': self.group.name, 'snipName': self.name })
+        return ('sphene-sphwiki-showSnip', (), { 'groupName': self.group.name, 'snipName': self.name })
     get_absolute_url = sphpermalink(get_absolute_url)
 
     def get_absolute_editurl(self):
-        return ('sphene.sphwiki.views.editSnip', (), { 'groupName': self.group.name, 'snipName': self.name })
+        return ('sphene-sphwiki-editSnip', (), { 'groupName': self.group.name, 'snipName': self.name })
     get_absolute_editurl = sphpermalink(get_absolute_editurl)
 
     def get_absolute_attachmenturl(self):
-        return ('sphene.sphwiki.views.attachment', (), { 'groupName': self.group.name, 'snipName': self.name })
+        return ('sphene-sphwiki-attachment', (), { 'groupName': self.group.name, 'snipName': self.name })
     get_absolute_attachmenturl = sphpermalink(get_absolute_attachmenturl)
 
     def get_absolute_create_attachmenturl(self):
-        return ('sphene.sphwiki.views.attachmentCreate', (), { 'groupName': self.group.name, 'snipName': self.name })
+        return ('sphene-sphwiki-attachmentCreate', (), { 'groupName': self.group.name, 'snipName': self.name })
     get_absolute_create_attachmenturl = sphpermalink(get_absolute_create_attachmenturl)
 
     def get_absolute_historyurl(self):
-        return ('sphene.sphwiki.views.history', (), { 'groupName': self.group.name, 'snipName': self.name})
+        return ('sphene-sphwiki-history', (), { 'groupName': self.group.name, 'snipName': self.name})
     get_absolute_historyurl = sphpermalink(get_absolute_historyurl)
 
     def get_absolute_recentchangesurl(self):
-        return ('sphene.sphwiki.views.recentChanges', (), { 'groupName': self.group.name })
+        return ('sphene-sphwiki-recentChanges', (), { 'groupName': self.group.name })
     get_absolute_recentchangesurl = sphpermalink(get_absolute_recentchangesurl)
 
     def get_absolute_pdfurl(self):
-        return ('sphene.sphwiki.views.generatePDF', (), { 'groupName': self.group.name, 'snipName': self.name })
+        return ('sphene-sphwiki-generatePDF', (), { 'groupName': self.group.name, 'snipName': self.name })
     get_absolute_pdfurl = sphpermalink(get_absolute_pdfurl)
 
     def get_parent(self):

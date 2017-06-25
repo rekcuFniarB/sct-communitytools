@@ -10,7 +10,7 @@ urlpatterns = [
                        url(r'accounts/login/$', communityViews.accounts_login),
                        url(r'accounts/logout/$', communityViews.accounts_logout),
                        url(r'accounts/forgot/$', communityViews.accounts_forgot),
-                       url(r'profile/(?P<user_id>\d+)/$', communityViews.profile),
+                       url(r'profile/(?P<user_id>\d+)/$', communityViews.profile, name='sphene-community-profile'),
                        url(r'profile/edit/$', communityViews.profile_edit_mine),
                        url(r'profile/edit/(?P<user_id>\d+)/$', communityViews.profile_edit),
                        url(r'profile/(?P<user_id>\d+)/reveal_address/$', communityViews.reveal_emailaddress, name = 'sph_reveal_emailaddress',),

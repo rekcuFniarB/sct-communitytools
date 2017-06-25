@@ -243,7 +243,7 @@ def sph_iter(value):
 def sph_user_profile_link(value):
     """ Returns the URL to the user profile. """
     kwargs = { 'user_id': value.id, }
-    return sph_reverse('sphene.community.views.profile', kwargs = kwargs )
+    return sph_reverse('sphene-community-profile', kwargs = kwargs )
 
 
 import os
