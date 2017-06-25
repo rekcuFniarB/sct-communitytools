@@ -264,7 +264,12 @@ from django.utils.encoding import smart_str
 class SphURLNode(Node):
     " copied from django.template.defaulttags "
     def __init__(self, view_name, args, kwargs, asvar):
-        self.view_name = view_name
+        if not isinstance(view_name, basestring):
+            view_name = str(view_name)
+        if view_name[0] == view_name[-1] and view_name[0] in ('"', "'"):
+            self.view_name = view_name[1:-1]
+        else:
+            self.view_name = view_name
         self.args = args
         self.kwargs = kwargs
         self.asvar = asvar

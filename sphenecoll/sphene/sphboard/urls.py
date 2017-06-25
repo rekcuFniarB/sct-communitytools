@@ -37,7 +37,7 @@ urlpatterns = [
                         url(r'^vote/(?P<thread_id>\d+)/$', boardViews.vote),
                         url(r'^togglemonitor_(?P<monitortype>\w+)/(?P<object_id>\d+)/(?P<monitor_user_id>\d+)/$', boardViews.toggle_monitor, name = 'sphboard_toggle_user_monitor'),
                         url(r'^togglemonitor_(?P<monitortype>\w+)/(?P<object_id>\d+)/$', boardViews.toggle_monitor, name = 'sphboard_toggle_monitor'),
-                        url(r'^catchup/(?P<category_id>\d+)/$', boardViews.catchup),
+                        url(r'^catchup/(?P<category_id>\d+)/$', boardViews.catchup, name='sphboard_catchup'),
                         url(r'^poll/(?P<poll_id>\d+)/edit/$', boardViews.edit_poll, name = 'sphboard_edit_poll'),
                         url(r'^admin/(?P<user_id>\d+)/posts/$', boardViews.admin_user_posts, name = 'sphboard_admin_user_posts'),
                         url(r'^admin/(?P<user_id>\d+)/posts/(?P<post_id>\d+)/delete/$', boardViews.admin_post_delete, name = 'sphboard_admin_post_delete'),
