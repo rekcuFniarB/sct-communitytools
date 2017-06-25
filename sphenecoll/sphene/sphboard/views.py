@@ -922,8 +922,7 @@ def render_latest_posts_of_user(request, group, user):
     ctx = latest_posts_of_user_context(request,group,user)
     ctx['post_list'] = ctx['post_list'][0:10]
     str = template.loader.render_to_string( 'sphene/sphboard/_latest_posts_of_user.html',
-                                            ctx,
-                                            context_instance = RequestContext(request))
+                                            ctx, request=request)
     return str
 
 
