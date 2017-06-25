@@ -4,7 +4,7 @@ import logging
 from django.conf import settings
 from django.core import exceptions
 from django.urls import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import loader
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
@@ -255,10 +255,9 @@ def add_rss_feed(url, label):
     sphdata['rss'].append( { 'url': url,
                              'label': label, } )
 
-def sph_render_to_response(template_name, context = None):
-    return render_to_response(template_name,
-                              context,
-                              context_instance = RequestContext(get_current_request()))
+def sph_render_to_response(request, template_name, context = None):
+    return render(request, template_name,
+                              context)
 
 
 def include_js(jspath, prefix = None):

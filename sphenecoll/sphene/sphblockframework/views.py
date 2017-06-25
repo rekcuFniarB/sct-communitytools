@@ -1,7 +1,7 @@
 
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template.context import RequestContext
 
 from sphene.community.middleware import get_current_group
@@ -45,11 +45,11 @@ def config(request, group):
     else:
         createblockform = CreateBlockForm()
 
-    return render_to_response('sphene/sphblockframework/config.html',
+    return render(request, 'sphene/sphblockframework/config.html',
                               { 'blockconfigs': blockconfigs,
                                 'createblockform': createblockform,
-                                },
-                              context_instance = RequestContext(request))
+                              }
+                 )
 
 def edit_block_config(request, group, block_config_id):
     if request.method == 'GET' and 'delete' in request.GET:

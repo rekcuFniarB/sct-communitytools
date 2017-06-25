@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django import template
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.list import ListView as object_list
 from django.template.context import RequestContext
 from django.utils.translation import ugettext, ugettext_lazy as _
@@ -89,8 +89,7 @@ def showCategory(request, group, category_id = None, showType = None, slug = Non
     templateName = 'sphene/sphboard/listCategories.html'
     if categoryObject == None:
         if showType != 'threads':
-            return render_to_response( templateName, context,
-                                       context_instance = RequestContext(request) )
+            return render(request, templateName, context)
 
         ## Show the latest threads from all categories.
         allowed_categories = get_all_viewable_categories( group, request.user )
@@ -149,7 +148,7 @@ def listThreads(request, group, category_id):
                                                  'posts',
                                                  ( 'latestpostdate',
                                                    'latestpostauthor', ), ), )
-    return sph_render_to_response( 'sphene/sphboard/new_list_threads.html',
+    return sph_render_to_response(request, 'sphene/sphboard/new_list_threads.html',
                                    { 'threadlist': threadlist, })
 
 
@@ -442,8 +441,7 @@ def post(request, group = None, category_id = None, post_id = None, thread_id = 
     if 'createpoll' in request.REQUEST:
         context['createpoll'] = request.REQUEST['createpoll']
 
-    res = render_to_response( "sphene/sphboard/post.html", context,
-                              context_instance = RequestContext(request) )
+    res = render(request, "sphene/sphboard/post.html", context)
     # Maybe the user is in the 'edit' form, which should not be cached.
     res.sph_lastmodified = True
     return res
@@ -473,7 +471,7 @@ def edit_poll(request, group, poll_id):
         return HttpResponseRedirect(sph_reverse('sphene.sphboard.views.showThread',
                                                 kwargs = { 'thread_id': poll.post.get_thread().id }))
 
-    return sph_render_to_response('sphene/sphboard/edit_poll.html',
+    return sph_render_to_response(request, 'sphene/sphboard/edit_poll.html',
                                   { 'form': form,
                                     'choiceforms': choiceforms,
                                     })
@@ -516,12 +514,12 @@ def annotate(request, group, post_id):
             form.fields['markup'].initial = annotation.markup
 
 
-    return render_to_response( "sphene/sphboard/annotate.html",
+    return render(request, "sphene/sphboard/annotate.html",
                                { 'thread': thread,
                                  'post': post,
                                  'form': form,
-                                 },
-                               context_instance = RequestContext(request) )
+                               }
+                 )
 
 
 def hide(request, group, post_id):
@@ -540,11 +538,11 @@ def hide(request, group, post_id):
             return HttpResponseRedirect( post.category.get_absolute_url() )
         return HttpResponseRedirect( thread.get_absolute_url() )
 
-    return render_to_response( "sphene/sphboard/hide.html",
+    return render(request, "sphene/sphboard/hide.html",
                                { 'thread': thread,
                                  'post': post
-                                 },
-                               context_instance = RequestContext(request) )
+                               }
+                 )
 
 
 def move_post_1(request, group, post_id):
@@ -556,10 +554,10 @@ def move_post_1(request, group, post_id):
         raise PermissionDenied()
     categories = get_all_viewable_categories(group, request.user)
     categories = Category.objects.filter(pk__in=categories)
-    return render_to_response("sphene/sphboard/move_post_1.html",
+    return render(request, "sphene/sphboard/move_post_1.html",
                               {'categories': categories,
-                               'post': post},
-                              context_instance = RequestContext(request))
+                               'post': post}
+                 )
 
 
 def move_post_2(request, group, post_id, category_id):
@@ -717,15 +715,15 @@ def move_post_3(request, group, post_id, category_id, thread_id=None):
     else:
         form.fields['body'].initial = _(u'This post was moved from the category %(category_name)s') % {'category_name':category_name}
 
-    return render_to_response( "sphene/sphboard/move_post_3.html",
+    return render(request, "sphene/sphboard/move_post_3.html",
                                { 'thread': thread,
                                  'form': form,
                                  'post':post,
                                  'target_thread':target_thread,
                                  'is_root_post':is_root_post,
                                  'category':target_category
-                                 },
-                               context_instance = RequestContext(request))
+                               }
+                 )
 
 
 def move(request, group, thread_id):
@@ -795,11 +793,11 @@ def move(request, group, thread_id):
         category_name = thread.category.name
     form.fields['body'].initial = _(u'This thread was moved from the category %(category_name)s') % {'category_name':category_name}
 
-    return render_to_response( "sphene/sphboard/move.html",
+    return render(request, "sphene/sphboard/move.html",
                                { 'thread': thread,
                                  'form': form,
-                                 },
-                               context_instance = RequestContext(request))
+                               }
+                 )
 
 
 def delete_moved_info(request, group, pk):
@@ -815,9 +813,9 @@ def delete_moved_info(request, group, pk):
         messages.success(request,  message = ugettext(u'Information about moved thread has been deleted') )
         return HttpResponseRedirect(back_url)
 
-    return render_to_response("sphene/sphboard/delete_moved_info.html",
-                              {'th': th},
-                              context_instance=RequestContext(request))
+    return render(request, "sphene/sphboard/delete_moved_info.html",
+                              {'th': th}
+                 )
 
 
 def vote(request, group = None, thread_id = None):

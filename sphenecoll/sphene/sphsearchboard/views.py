@@ -43,7 +43,7 @@ def view_search_posts(request, group):
         if end > count:
             end = count
 
-    return sph_render_to_response('sphene/sphsearchboard/search.html',
+    return sph_render_to_response(request, 'sphene/sphsearchboard/search.html',
                                   { 'query': query,
                                     'results': results,
                                     'terms': terms,
