@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 
-from sphene.community.models import Tag, tag_get_models_by_tag
+from sphene.community.models import Tag, tag_get_models_by_tag, Group
 from sphene.community.middleware import get_current_urlconf
 from sphene.community.sphutils import add_rss_feed
 from sphene.sphboard.views import showThread as sphboard_show_thread
@@ -117,6 +117,8 @@ def blogindex(request, group, category_id = None, category_slug = None, page = 1
     shows a blog posts list. year and month parameters
     are used for archive functionality.
     """
+
+    group = Group.objects.get(name = group)
 
     category_info = get_category_info(category_id = category_id,
                                       category_slug = category_slug,
