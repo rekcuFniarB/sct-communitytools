@@ -384,12 +384,20 @@ def editSnip(request, group, snipName, versionId = None):
         changemessage = ugettext('Reverted to revision of %(editdate)s') % \
             { 'editdate': sph_date( version.edited ) }
 
-    t = loader.get_template( 'sphene/sphwiki/editSnip.html' )
-    return HttpResponse( t.render( RequestContext( request, 
-                                                   { 'form': form,
-                                                     'snip': snip,
-                                                     'version': version,
-                                                     'changemessage': changemessage } ) ) )
+    #t = loader.get_template( 'sphene/sphwiki/editSnip.html' )
+    #return HttpResponse( t.render( RequestContext( request, 
+                                                   #{ 'form': form,
+                                                     #'snip': snip,
+                                                     #'version': version,
+                                                     #'changemessage': changemessage } ) ) )
+    return render(request, 'sphene/sphwiki/editSnip.html',
+                     {
+                         'form': form,
+                         'snip': snip,
+                         'version': version,
+                         'changemessage': changemessage
+                     }
+                  )
 
 
 def show_tag_snips(request, group, tag_name):
