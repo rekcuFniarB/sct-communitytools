@@ -228,7 +228,7 @@ def sph_html_user(user):
     str = template.loader \
         .render_to_string( 'sphene/community/_display_username.html',
                            { 'user': user, },
-                           context_instance = RequestContext(get_current_request()) )
+                           request = get_current_request() )
     return str
 
 @register.filter
