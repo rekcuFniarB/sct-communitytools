@@ -124,6 +124,34 @@ def history(request, group, snipName):
                                           },
                         )
 
+class ShowHistoryClass(object_list):
+    allow_empty = True
+    _data = None
+    template_name = 'sphene/sphwiki/history.html'
+    def _prepare(self):
+        group = self.kwargs.get('group', None)
+        snipName = self.kwargs.get('snipName', None)
+        snip = get_object_or_404( WikiSnip, group = group, name = snipName )
+        if not snip.has_view_permission():
+            raise PermissionDenied()
+        data = {
+            'snipName': snipName,
+            'snip': snip
+        }
+        return data
+        
+    def get_context_data(self, **kwargs):
+        context = super(ShowHistoryClass, self).get_context_data(**kwargs)
+        if not self._data:
+            self._data = self._prepare()
+        context.update(self._data)
+        return context
+    
+    def get_queryset(self):
+        if not self._data:
+            self._data = self._prepare()
+        return self._data['snip'].wikisnipchange_set.order_by('-edited')
+
 def recentChanges(request, group):
     res =  object_list( request = request,
                         queryset = WikiSnipChange.objects.filter( snip__group = group ).order_by('-edited'),
