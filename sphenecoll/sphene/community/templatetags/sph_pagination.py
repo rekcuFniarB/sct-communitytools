@@ -98,3 +98,54 @@ def sph_pagination(context, pages, page, url = '', getparam = 'page', compress=0
             to_return['getvars'] = ''
         
     return to_return
+
+
+@register.inclusion_tag('sphene/community/_pagination.html', takes_context=True)
+def sph_pagination_new(context, page_obj, url = '', getparam = 'page', compress=0):
+    ## Fixed pagination for ListView class based view
+    pages = page_obj.paginator.num_pages
+    page = page_obj.number
+    has_next = page_obj.has_next()
+    has_prev = page_obj.has_previous()
+    if page == -1:
+        has_next = has_prev = False
+
+    if compress:
+        page_range = define_page_range(page, pages)
+
+        first = 1
+        last = pages
+
+        if first in page_range:
+            first = None
+
+        if last in page_range:
+            last = None
+    else:
+        page_range = range( 1, pages+1 )
+        first = None
+        last = None
+
+    to_return = {'page_range': page_range,
+                 'page': page,
+                 'pages': pages,
+                 'has_next': has_next,
+                 'has_prev': has_prev,
+                 'next': page + 1,
+                 'prev': page - 1,
+                 'url': url,
+                 'getparam': getparam,
+                 'first_page':first,
+                 'last_page':last
+                 }
+
+    if 'request' in context:
+        getvars = context['request'].GET.copy()
+        if 'page' in getvars:
+            del getvars['page']
+        if len(getvars.keys()) > 0:
+            to_return['getvars'] = "&%s" % getvars.urlencode()
+        else:
+            to_return['getvars'] = ''
+        
+    return to_return
