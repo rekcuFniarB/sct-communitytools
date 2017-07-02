@@ -20,7 +20,7 @@ from sphene.sphwiki.models import WikiSnip, WikiSnipChange, WikiAttachment
 from sphene.community import PermissionDenied, sphutils
 from sphene.community.sphutils import get_sph_setting
 from sphene.community.middleware import get_current_sphdata, get_current_user
-from sphene.community.models import Tag, TagLabel, TaggedItem, tag_set_labels, tag_get_labels, tag_get_models_by_tag, Group
+from sphene.community.models import Tag, TagLabel, TaggedItem, tag_set_labels, tag_get_labels, tag_get_models_by_tag
 from sphene.community.fields import TagField
 from sphene.community.widgets import TagWidget
 
@@ -32,12 +32,14 @@ import os
 def showSnip(request, group, snipName):
     snip_rendered_body = None
     status = None
-    wiki_group = Group.objects.get(name = group)
+    
+    #group = Group.objects.get(name = group)
+    
     try:
-        snip = WikiSnip.objects.get( group = wiki_group,
+        snip = WikiSnip.objects.get( group = group,
                                      name__exact = snipName )
     except WikiSnip.DoesNotExist:
-        snip = WikiSnip( name = snipName, group = wiki_group )
+        snip = WikiSnip( name = snipName, group = group )
         status = 404
 
     if not snip.has_view_permission():
