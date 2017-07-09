@@ -161,6 +161,20 @@ def recentChanges(request, group):
     res.sph_lastmodified = True
     return res
 
+class RecentChangesClass(object_list):
+    allow_empty = True
+    template_name = 'sphene/sphwiki/recentChanges.html'
+    def get_queryset(self):
+        group = self.kwargs.get('group', None)
+        return WikiSnipChange.objects.filter( snip__group = group ).order_by('-edited')
+    def get_context_data(self, **kwargs):
+        context = super(RecentChangesClass, self).get_context_data(**kwargs)
+        return context
+    def render_to_response(self, context, **kwargs):
+        response = super(RecentChangesClass, self).render_to_response(context, **kwargs)
+        response.sph_lastmodified = True
+        return response
+
 def diff(request, group, snipName, changeId = None):
     snip = get_object_or_404( WikiSnip,
                               group = group,

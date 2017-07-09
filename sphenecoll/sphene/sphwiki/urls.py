@@ -11,7 +11,7 @@ urlpatterns = [
 snip = r'(?P<snipName>[\w/:\-.]+?)'
 
 urlpatterns.extend([
-                        url(r'^recentchanges/$', views.recentChanges, name='sphene-sphwiki-recentChanges'),
+                        url(r'^recentchanges/$', views.RecentChangesClass.as_view(), name='sphene-sphwiki-recentChanges'),
                         url(r'^show/'          + snip + r'/$', views.showSnip, name='sphene-sphwiki-showSnip'),
                         url(r'^pdf/'           + snip + r'/$', views.generatePDF, name='sphene-sphwiki-generatePDF'),
                         url(r'^edit/'          + snip + r'/$', views.editSnip, name='sphene-sphwiki-editSnip'),

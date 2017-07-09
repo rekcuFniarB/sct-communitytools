@@ -305,7 +305,7 @@ class PermissionDeniedMiddleware(object):
         return None
 
 
-class LastModified(object):
+class LastModified(MiddlewareMixin):
     """ Middleware that sets the Last-Modified and associated headers,
     if requested by the view. (By setting the sph_lastmodified attribute
     of the response object.
