@@ -551,7 +551,7 @@ class Category(models.Model):
     get_absolute_latest_url = sphpermalink(get_absolute_latest_url)
 
     def get_absolute_togglemonitor_url(self):
-        return ('sphene.sphboard.views.toggle_monitor', (), { 'groupName': self.group.name, 'monitortype': 'category', 'object_id': self.id, })
+        return ('sphboard_toggle_monitor', (), { 'groupName': self.group.name, 'monitortype': 'category', 'object_id': self.id, })
     get_absolute_togglemonitor_url = sphpermalink(get_absolute_togglemonitor_url)
     
     def __unicode__(self):
