@@ -18,7 +18,7 @@ urlpatterns = [
                         url(r'^$', boardViews.showCategory, {'category_id': '0'}, name = 'sphboard-index'),
                         #url(r'^show/(?P<category_id>\d+)/(?P<slug>.+)/$', boardViews.showCategory, name = 'sphboard_show_category'),
                         url(r'^show/(?P<category_id>\d+)/(?P<slug>.+)/$', boardViews.ShowCategoryClass.as_view(), name = 'sphboard_show_category'),
-                        url(r'^show/(?P<category_id>\d+)/$', boardViews.showCategory, name = 'sphboard_show_category_without_slug'),
+                        url(r'^show/(?P<category_id>\d+)/$', boardViews.ShowCategoryClass.as_view(), name = 'sphboard_show_category_without_slug'),
                         url(r'^list_threads/(?P<category_id>\d+)/$', boardViews.listThreads),
                         url(r'^latest/(?P<category_id>\d+)/$', boardViews.showCategory, { 'showType': 'threads' }, name = 'sphboard_latest'),
                         url(r'^thread/(?P<thread_id>\d+)/(?P<slug>.+)/$', boardViews.showThread, name = 'sphboard_show_thread'),
