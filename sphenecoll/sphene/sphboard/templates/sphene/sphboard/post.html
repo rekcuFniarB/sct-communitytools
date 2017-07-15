@@ -29,3 +29,8 @@
   {% endif %}
 
 {% endblock %}
+
+{% block js %}
+  {{ block.super }}
+  <script src="{{ STATIC_URL }}sphene/community/jquery.autocomplete.js"></script>
+{% endblock %}
