@@ -25,6 +25,13 @@ from sphene.sphboard.forms import PollForm, PollChoiceForm, PostForm, \
                                   AnnotateForm, MoveAndAnnotateForm, MovePostForm
 from sphene.sphboard.models import Category, Post, PostAnnotation, ThreadInformation, Poll, PollChoice, PollVoters, POST_MARKUP_CHOICES, THREAD_TYPE_MOVED, THREAD_TYPE_DEFAULT, get_all_viewable_categories, ThreadLastVisit, CategoryLastVisit, PostAttachment
 
+#from django.conf import settings
+#from sphene.community import sphsettings
+#jsincludes = get_sph_setting( 'community_jsincludes', [])
+##jsincludes.append(settings.STATIC_URL + 'sphene/community/jquery-1.7.2.min.js')
+#jsincludes.append(settings.STATIC_URL + 'sphene/community/jquery.autocomplete.js')
+#sphsettings.set_sph_setting( 'community_jsincludes', jsincludes )
+
 
 def showCategory(request, group, category_id = None, showType = None, slug = None):
     """
@@ -334,10 +341,11 @@ def post(request, group = None, category_id = None, post_id = None, thread_id = 
     post_id and thread_id can either be passed in by URL (named parameters
     to this method) or by request.REQUEST parameters.
     """
-    if 'type' in request.REQUEST and request.REQUEST['type'] == 'preview':
+    
+    if request.method == 'POST' and 'type' in request.POST and request.POST['type'] == 'preview':
         # If user just wants a preview, simply create a dummy post so it can be rendered.
-        previewpost = Post( body = request.REQUEST['body'],
-                            markup = request.REQUEST.get('markup', None), )
+        previewpost = Post( body = request.POST['body'],
+                            markup = request.POST.get('markup', None), )
         return HttpResponse( unicode(previewpost.body_escaped()) )
 
 
@@ -348,11 +356,11 @@ def post(request, group = None, category_id = None, post_id = None, thread_id = 
     context = {
         'bbcodewysiwyg': enable_wysiwyg_editor() \
             or (get_sph_setting('board_wysiwyg_testing') \
-                    and request.REQUEST.get('wysiwyg', False)) }
+                    and request.GET.get('wysiwyg', False)) }
 
-    if post_id is None and 'post_id' in request.REQUEST:
+    if post_id is None and 'post_id' in request.GET:
         # if no post_id is given take it from the request.
-        post_id = request.REQUEST['post_id']
+        post_id = request.GET['post_id']
 
     if post_id is not None:
         # User wants to edit a post ..
@@ -368,8 +376,8 @@ def post(request, group = None, category_id = None, post_id = None, thread_id = 
 
     else:
         # User wants to create a new post (thread or reply)
-        if 'thread' in request.REQUEST:
-            thread_id = request.REQUEST['thread']
+        if 'thread' in request.GET:
+            thread_id = request.GET['thread']
 
         if thread_id is not None:
             # User is posting (replying) to a thread.
@@ -530,8 +538,8 @@ def post(request, group = None, category_id = None, post_id = None, thread_id = 
             postForm.fields['markup'].initial = post_obj.markup
         context['post'] = post_obj
         context['thread'] = post_obj.thread or post_obj
-    elif 'quote' in request.REQUEST:
-        quotepost = get_object_or_404(Post, pk = request.REQUEST['quote'] )
+    elif 'quote' in request.GET:
+        quotepost = get_object_or_404(Post, pk = request.GET['quote'] )
         postForm.fields['subject'].initial = 'Re: %s' % thread.subject
         if quotepost.author == None:
             username = 'anonymous'
@@ -546,8 +554,8 @@ def post(request, group = None, category_id = None, post_id = None, thread_id = 
     if (not thread and not post_obj) or (post_obj and post_obj.is_new() and post_obj.thread is None):
         context['pollform'] = pollForm
     context['post_attachment_formset'] = post_attachment_formset
-    if 'createpoll' in request.REQUEST:
-        context['createpoll'] = request.REQUEST['createpoll']
+    if 'createpoll' in request.GET:
+        context['createpoll'] = request.GET['createpoll']
 
     res = render(request, "sphene/sphboard/post.html", context)
     # Maybe the user is in the 'edit' form, which should not be cached.

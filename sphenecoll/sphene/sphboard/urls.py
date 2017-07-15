@@ -25,7 +25,7 @@ urlpatterns = [
                         url(r'^thread/(?P<thread_id>\d+)/$', boardViews.showThread, name = 'sphboard_show_thread_without_slug'),
                         url(r'^options/(?P<thread_id>\d+)/$', boardViews.options, name = 'sphboard_options'),
                         url(r'^move/(?P<thread_id>\d+)/$', boardViews.move, name = 'sphboard_move_thread'),
-                        url(r'^post/(?P<category_id>\d+)/(?P<post_id>\d+)/$', boardViews.post),
+                        url(r'^post/(?P<category_id>\d+)/(?P<post_id>\d+)/$', boardViews.post, name='sphboard_view_post'),
                         url(r'^post/(?P<category_id>\d+)/$', boardViews.post, name = 'sphboard_post_thread'),
                         url(r'^reply/(?P<category_id>\d+)/(?P<thread_id>\d+)/$', boardViews.reply, name = 'sphboard_reply'),
                         url(r'^annotate/(?P<post_id>\d+)/$', boardViews.annotate),
