@@ -1,13 +1,18 @@
 from django.apps import AppConfig
 from sphene.community import sphsettings
 from django.conf import settings
+import re
 
 class SphBoardConfig(AppConfig):
     name = 'sphene.sphboard'
+    label = 'sphboard'
+    _SPHCONF = {}
     def ready(self):
-        #from sphene.community.sphutils import add_setting_defaults
-        sphsettings.add_setting_defaults({
-        #add_setting_defaults( {
+        from sphene.contrib.libs.common.text.bbcode import HtmlEquivTag, SoftBrTag, Emoticon, ImgTag, ColorTag, MemberTag, EmailTag, UrlTag, QuoteTag
+
+        ## All below code moved here from sphene.contrib.libs.common.text.bbcode due to "app not ready" error.
+        
+        self._SPHCONF['defaults'] = {
             'board_count_views': True,
             'board_heat_days': 30,
             'board_heat_post_threshold': 10,
@@ -124,8 +129,114 @@ class SphBoardConfig(AppConfig):
             # ?wysiwyg=1 to the post URL. (I just added it so it can be seen on
             # sct.sphene.net and tested by users.)
             'board_wysiwyg_testing': False,
-        })
+        }
+        sphsettings.add_setting_defaults(self._SPHCONF['defaults'])
     
         styleincludes = sphsettings.get_sph_setting( 'community_styleincludes', [])
         styleincludes.append(settings.STATIC_URL + 'sphene/sphboard/styles/base.css')
         sphsettings.set_sph_setting( 'community_styleincludes', styleincludes )
+        
+        self._SPHCONF['BBTAGS'] = {}
+        
+        self._SPHCONF['BBTAGS']['_COLORS'] = ('aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 
+            'navy', 'olive', 'purple', 'red', 'silver', 'teal', 'white', 'yellow')
+        self._SPHCONF['BBTAGS']['_COLOR_REGEXP'] = re.compile(r'#[0-9A-F]{6}')
+        self._SPHCONF['BBTAGS']['_MEMBER_REGEXP'] = re.compile(r'^[\'"]?(?P<username>[0-9A-Za-z_]{1,30})[\'"]?(?:;(?P<post_id>[0-9]+))?$')
+        self._SPHCONF['BBTAGS']['_BBTAG_REGEXP'] = re.compile(r'\[\[?\/?([A-Za-z\*]+)(:[a-f0-9]+)?(=[^\]]+)?\]?\]')
+
+        # 'text' is a dummy entry for text nodes
+        self._SPHCONF['BBTAGS']['_INLINE_TAGS'] = (
+            'b', 'i', 'color', 'member', 'email', 'url', 
+            'br', 'text', 'img', 'softbr', 'emoticon', 'u'
+        )
+        self._SPHCONF['BBTAGS']['_BLOCK_LEVEL_TAGS'] = ('p', 'quote', 'list', 'pre', 'code', 'div')
+        self._SPHCONF['BBTAGS']['_FLOW_TAGS'] = self._SPHCONF['BBTAGS']['_INLINE_TAGS'] + self._SPHCONF['BBTAGS']['_BLOCK_LEVEL_TAGS']
+        self._SPHCONF['BBTAGS']['_OTHER_TAGS'] = ('*',)
+
+        self._SPHCONF['BBTAGS']['_ANCHOR_TAGS'] = ('member', 'email', 'url')
+
+        # Rules, defined so that the output after translation will be 
+        # XHTML compatible. Other rules are implicit in the parsing routines.
+        # Note that some bbtags can adapt to their context in the rendering
+        # phase in order to generate correct XHTML, so have slacker rules than normal
+        # Also, some tags only exist to make parsing easier, and are
+        # not intended for use by end user.
+        self._SPHCONF['BBTAGS']['_TAGS'] = (
+            #           name          allowed_children   implicit_tag
+            # <br/>
+            HtmlEquivTag('br',         (),             'div', 
+                self_closing=True, discardable=True, html_equiv='br'),
+            
+            # <br/>, but can adapt during render
+            SoftBrTag   ('softbr',     (),             'div', 
+                self_closing=True, discardable=True),
+            
+            # <img/>,  but can adapt
+            Emoticon    ('emoticon',   ('text',),      'div'),
+            
+            # <b>
+            HtmlEquivTag('b',          self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   'div',
+                html_equiv='b'),
+            
+            # <u>
+            HtmlEquivTag('u',          self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   'div',
+                html_equiv='u'),
+            
+            # <img/>
+            ImgTag('img',          self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   'div'),
+            
+            # <i>
+            HtmlEquivTag('i',          self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   'div',
+                html_equiv='i'),
+            
+            # <span>
+            ColorTag    ('color',      self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   'div'),
+            
+            # <a>
+            MemberTag   ('member',     ('text',),      'div' ),
+            
+            # <a>
+            EmailTag    ('email',      ('text',),      'div'),
+            
+            # <a>
+            UrlTag      ('url',        self._SPHCONF['BBTAGS']['_INLINE_TAGS'],      'div'),
+            
+            # <p>
+            HtmlEquivTag('p',          self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   None,
+                html_equiv='p'),
+            
+            # <div>
+            HtmlEquivTag('div',        self._SPHCONF['BBTAGS']['_INLINE_TAGS'],     None,
+                html_equiv='div'),
+            
+            # <blockquote>
+            QuoteTag    ('quote',      self._SPHCONF['BBTAGS']['_BLOCK_LEVEL_TAGS'] + ('softbr',), 'div'),
+            
+            # <ul>
+            HtmlEquivTag('list',       ('*', 'softbr'), None,
+                html_equiv='ul'),
+            
+            # <pre> (only img currently needed out of the prohibited elements)
+            HtmlEquivTag('pre',        self._SPHCONF['BBTAGS']['_INLINE_TAGS'],   None, 
+                prohibited_elements=('img', 'big', 'small', 'sub', 'sup', 'br'),
+                html_equiv='pre'), 
+            
+            # <pre class="code">
+            HtmlEquivTag('code',       self._SPHCONF['BBTAGS']['_INLINE_TAGS'], None, 
+                prohibited_elements = ('img', 'big', 'small', 'sub', 'sup', 'br'),
+                html_equiv='pre', attributes={'class':'code'}),
+                
+            # <li>
+            HtmlEquivTag('*', self._SPHCONF['BBTAGS']['_FLOW_TAGS'], 'list',
+                html_equiv='li')
+        )
+        
+
+        # Make a dictionary
+        self._SPHCONF['BBTAGS']['_TAGDICT'] = {}
+        for t in self._SPHCONF['BBTAGS']['_TAGS']:
+            if t.name != 'text':
+                self._SPHCONF['BBTAGS']['_TAGDICT'][t.name] = t
+
+        ## Make list of valid tags
+        self._SPHCONF['BBTAGS']['_TAGNAMES'] = [t.name for t in self._SPHCONF['BBTAGS']['_TAGS']]
