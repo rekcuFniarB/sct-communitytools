@@ -679,7 +679,7 @@ def tags_json_autocompletion(request, group):
                                                                                     taglabel.tag.name )
 
     return HttpResponse("<taglabels>%s</taglabels>" % ret,
-                        mimetype = 'text/xml', )
+                        content_type = 'text/xml', )
 
 
 
