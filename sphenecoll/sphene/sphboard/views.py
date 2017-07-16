@@ -296,6 +296,48 @@ def showThread(request, thread_id, group = None, slug = None):
     res.sph_lastmodified = thread.get_latest_post().postdate
     return res
 
+class showThreadClass(object_list):
+    _data = None
+    context_object_name = 'post_list'
+    allow_empty = True
+    def _prepare(self):
+        thread_id = self.kwargs.get('thread_id', None)
+        group = self.kwargs.get('group', None)
+        slug = self.kwargs.get('slug', None)
+        request = self.request
+        
+        thread = get_object_or_404(Post.objects, pk = thread_id )
+        if not thread.category.has_view_permission(request.user):
+            raise PermissionDenied()
+        thread.viewed( request.session, request.user )
+        
+        sphdata = get_current_sphdata()
+        if sphdata != None: sphdata['subtitle'] = thread.subject
+        
+        category_type = thread.category.get_category_type()
+        template_name = category_type.get_show_thread_template()
+        context = {
+            'thread': thread,
+            'allowPosting': thread.allowPosting( request.user ),
+            'postSubject': 'Re: ' + thread.subject,
+            'category_type': category_type,
+            }
+        self.paginate_by = get_sph_setting( 'board_post_paging' )
+        self.template_name = template_name
+        print 'DEBUG: template:', template_name
+        print 'DEBUG: subject:', thread.subject
+        return context
+    def get_context_data(self, **kwargs):
+        context = super(showThreadClass, self).get_context_data(**kwargs)
+        if not self._data:
+            self._data = self._prepare()
+        context.update(self._data)
+        return context
+    def get_queryset(self):
+        if not self._data:
+            self._data = self._prepare()
+        return self._data['thread'].get_all_posts().order_by('postdate')
+
 
 def options(request, thread_id, group = None):
     thread = Post.objects.get( pk = thread_id )
