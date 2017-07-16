@@ -1168,7 +1168,7 @@ class Post(models.Model):
     _get_absolute_url = sphpermalink(_get_absolute_url)
     
     def get_absolute_editurl(self):
-        return ('sphene.sphboard.views.post', (), { 'groupName': self.category.group.name, 'category_id': self.category.id, 'post_id': self.id })
+        return ('sphboard_view_post', (), { 'groupName': self.category.group.name, 'category_id': self.category.id, 'post_id': self.id })
     get_absolute_editurl = sphpermalink(get_absolute_editurl)
 
     def get_absolute_hideurl(self):
@@ -1180,7 +1180,7 @@ class Post(models.Model):
     get_absolute_moveposturl = sphpermalink(get_absolute_moveposturl)
 
     def get_absolute_postreplyurl(self):
-        return ('sphene.sphboard.views.reply', (), { 'groupName': self.category.group.name, 'category_id': self.category.id, 'thread_id': self.get_thread().id })
+        return ('sphboard_reply', (), { 'groupName': self.category.group.name, 'category_id': self.category.id, 'thread_id': self.get_thread().id })
     get_absolute_postreplyurl = sphpermalink(get_absolute_postreplyurl)
 
     def get_absolute_annotate_url(self):
