@@ -36,6 +36,6 @@ urlpatterns = [
                        url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<slug>.*)/$', sphblog_views.show_thread_redirect),
                        url(r'^(?P<category_id>\d+)/$', sphblog_views.blogindex_redirect, name='sphblog_category_index'),
                        url(r'^(?P<category_slug>[\w\-]+)/$', sphblog_views.blogindex, name='sphblog_category_index_slug'),
-                       url(r'^(?P<category_slug>[\w\-]+?)/(?P<slug>[\w\-]+)/$', sphblog_views.show_thread),
+                       url(r'^(?P<category_slug>[\w\-]+?)/(?P<slug>[\w\-]+)/$', sphblog_views.show_thread, name='sphblog_show_thread'),
                 ]
 
