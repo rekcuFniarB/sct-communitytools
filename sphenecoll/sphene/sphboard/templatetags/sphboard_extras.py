@@ -159,16 +159,21 @@ def authorinfo_cachekey(user_id, group_id = None, language_code = None):
     return '%s_sphboard_authorinfo_%s_%s_%s' % \
         (settings.CACHE_MIDDLEWARE_KEY_PREFIX, str(group_id), str(user_id), language_code)
 
-@cache_inclusion_tag(register,
-                     'sphene/sphboard/_post_authorinfo.html',
-                     cache_key_func=authorinfo_cachekey,
-                     cache_time = get_sph_setting( 'board_authorinfo_cache_timeout' ))
+## FIXME had to disable caching of this tag due to unresolved problems
+#@cache_inclusion_tag(register,
+                     #'sphene/sphboard/_post_authorinfo.html',
+                     #cache_key_func=authorinfo_cachekey,
+                     #cache_time = get_sph_setting( 'board_authorinfo_cache_timeout' ))
+@register.inclusion_tag('sphene/sphboard/_post_authorinfo.html')
 def sphboard_post_authorinfo(user_id):
+    print 'DEBUG: PING 1'
+    
     if user_id is None:
         user = None
     else:
         user = User.objects.get(pk = user_id)
 
+    print 'DEBUG: PING 2'
     return {'author': user,
             'STATIC_URL': settings.STATIC_URL,
             'post_count': UserPostCount.objects.get_post_count(user, get_current_group())}
