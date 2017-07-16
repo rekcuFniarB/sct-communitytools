@@ -227,7 +227,7 @@ class ShowCategoryClass(object_list):
                 'context': context,
             }
         self.template_name = templateName
-        self.context_object_name = 'thread'
+        self.context_object_name = 'thread_list'
     
     def get_context_data(self, **kwargs):
         context = super(ShowCategoryClass, self).get_context_data(**kwargs)
