@@ -13,6 +13,13 @@
   {% endif %}
 {% endblock %}
 
+{% block title %}
+  {{ block.super }}
+  {% if category %}
+    {{ category.name }}
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 
   {% if allowpostcategories %}

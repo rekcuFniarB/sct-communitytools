@@ -4,6 +4,13 @@
 {% load sph_extras %}
 {% load sph_pagination %}
 
+{% block title %}
+  {{ block.super }}
+  {% if category %}
+    forum - {{ category.name }}
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 
   <p>{% if search_posts_url %}<a href="{{ search_posts_url }}?category_id={{ category.id }}">Search</a> | {% endif %}<a href="{% sph_url2 sphboard_latest category_id=category_id %}">{% trans "Latest" %}</a> | {% sphboard_displayBreadcrumbsForCategory category 0 1 %}</p>

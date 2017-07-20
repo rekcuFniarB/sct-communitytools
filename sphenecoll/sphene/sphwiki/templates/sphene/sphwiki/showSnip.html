@@ -10,6 +10,15 @@
   {% endif %}
 {% endblock %}
 
+{% block title %}
+  {{ block.super }}
+  {% if snip.title %}
+    - {{ snip.title }}
+  {% else %}
+    - {{ snip.name }}
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   {% include "sphene/sphwiki/_snip_header.html" %}
   {% if redirects %}

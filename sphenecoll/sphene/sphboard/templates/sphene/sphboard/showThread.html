@@ -4,7 +4,15 @@
 {% load sphboard_extras %}
 {% load sph_pagination %}
 
-{% block head %}
+{% block title %}
+  {{ block.super }}
+  {% if thread.category %}
+    - {{ thread.category.name }}
+  {% endif %}
+  - {{ thread.subject }}
+{% endblock %}
+
+{% block js %}
   {{ block.super }}
   <script type="text/javascript">
   <!--

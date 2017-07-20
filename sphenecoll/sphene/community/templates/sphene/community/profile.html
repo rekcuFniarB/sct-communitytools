@@ -2,6 +2,11 @@
 {% load i18n %}
 {% load sph_extras %}
 
+{% block title %}
+  {{ block.super }}
+  community user: {{ profile_user|sph_user_displayname }}
+{% endblock %}
+
 {% block subtitle %}
   {{ profile_user|sph_user_displayname }} - {% trans "User Profile" %}
 {% endblock %}

@@ -3,6 +3,13 @@
 {% load i18n %}
 {% load sph_extras %}
 
+{% block title %}
+  {{ block.super }}
+  {% if snip.title %}
+    - edit: {{ snip.title }}
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <script language="JavaScript" type="text/javascript" src="{{ STATIC_URL }}sphene/community/xmlhttp.js"></script>
   <script language="JavaScript" type="text/javascript">
