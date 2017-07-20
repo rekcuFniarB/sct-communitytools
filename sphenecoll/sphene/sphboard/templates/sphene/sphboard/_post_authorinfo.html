@@ -3,7 +3,11 @@
 {% load sphboard_extras %}
 {% trans "Posted by" %}<br/>
 {% sphboard_displayUserName author %}<br/><br/><br/>
+
+{% autoescape off %}
 {% sph_showavatar author %}<br/><br/>
+{% endautoescape %}
+
 {% if author %}
   <small>
     <dl class="sphboard_post_authorinfo_details">
