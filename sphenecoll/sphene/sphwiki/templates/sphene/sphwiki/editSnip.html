@@ -15,7 +15,14 @@
   <script language="JavaScript" type="text/javascript">
   <!--
    function doPreview() {
-     showResponseInElement( 'previewarea', 'Loading Preview ....', "type=preview&body=" + encodeURIComponent( document.snipedit.body.value ) );
+     var inputs = document.snipedit.getElementsByTagName('input');
+     var inputs_data = '';
+     for (i=0; i< inputs.length; i++){
+         if (typeof(inputs[i].name) !== 'undefined' && inputs[i].name != '') {
+             inputs_data += '&' + inputs[i].name + '=' + encodeURIComponent(inputs[i].value);
+         }
+     }
+     showResponseInElement( 'previewarea', 'Loading Preview ....', "type=preview&body=" + encodeURIComponent( document.snipedit.body.value ) + inputs_data );
    }
   //-->
   </script>
