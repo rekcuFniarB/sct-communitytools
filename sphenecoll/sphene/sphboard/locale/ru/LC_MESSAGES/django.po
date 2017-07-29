@@ -81,7 +81,7 @@ msgstr "Выберите категорию, в которую хотите по
 
 #: forms.py:133
 msgid "Information link"
-msgstr ""
+msgstr "Инфоссылка"
 
 #: forms.py:136
 msgid ""
@@ -111,7 +111,7 @@ msgstr "Просмотры"
 #: templates/sphene/sphboard/listCategories.html:32
 #: templates/sphene/sphboard/listCategories.html:61
 msgid "Posts"
-msgstr "Темы"
+msgstr "Сообщений"
 
 #: lists.py:50
 msgid "Latest Post"
@@ -127,7 +127,7 @@ msgstr "Обсуждаемая тема"
 
 #: models.py:216
 msgid "Allow editing of all posts."
-msgstr ""
+msgstr "Разрешить правку всех постов"
 
 #: models.py:219
 #, fuzzy
@@ -137,65 +137,65 @@ msgstr "Сообщение прокомментировано."
 #: models.py:222
 #, fuzzy
 msgid "Allow moving of threads."
-msgstr "Новая тема"
+msgstr "Разрешить перемещение тем."
 
 #: models.py:225
 msgid "Allow marking threads as sticky."
-msgstr ""
+msgstr "Разрешить прикреплять темы"
 
 #: models.py:228
 msgid "Allow locking of threads."
-msgstr ""
+msgstr "Зарзешить запирать темы."
 
 #: models.py:231
 #, fuzzy
 msgid "Allow creating new threads."
-msgstr "Новая тема"
+msgstr "Разрешить создавать новые темы."
 
 #: models.py:234
 msgid "Allow posting of replies to existing threads."
-msgstr ""
+msgstr "Разрешить отвечать в существующих темах."
 
 #: models.py:237
 #, fuzzy
 msgid "Allows viewing of threads."
-msgstr "Новая тема"
+msgstr "Разрешить просмотр тем."
 
 #: models.py:240
 msgid "Allows deleting posts."
-msgstr ""
+msgstr "Разрешить удаление сообщений."
 
 #: models.py:243
 msgid "Allows moving posts."
-msgstr ""
+msgstr "Разрешить перемещать сообщения."
 
 #: models.py:499
 #, fuzzy
 msgid "Categories"
-msgstr "Категория"
+msgstr "Категории"
 
 #: models.py:510
 #, fuzzy
 msgid "Thread last visit"
-msgstr "Параметры темы:"
+msgstr "Последнее посещение темы"
 
 #: models.py:511
 #, fuzzy
 msgid "Thread last visits"
-msgstr "Параметры темы:"
+msgstr "Последнее посещения темы"
 
 #: models.py:527
 msgid "Category last visit"
-msgstr ""
+msgstr "Последнее посещение каегории"
 
 #: models.py:528
 msgid "Category last visits"
-msgstr ""
+msgstr "Последние посещения категории"
 
 #: models.py:990
 #, python-format
 msgid "New Forum Post in \"%(category_name)s\": %(subject)s"
-msgstr ""
+msgstr "Новое форумное сообщение в \"%(category_name)s\": %(subject)s"
 
 #: models.py:1115 templates/sphene/sphboard/_displayPostForm.html:90
 msgid "Post"
@@ -208,7 +208,7 @@ msgstr "Файл"
 #: models.py:1132
 #, fuzzy
 msgid "Post attachment"
-msgstr "Приложения"
+msgstr "Приложение"
 
 #: models.py:1133
 #, fuzzy
@@ -218,12 +218,12 @@ msgstr "Приложения"
 #: models.py:1172
 #, fuzzy
 msgid "Post annotation"
-msgstr "Сообщение прокомментировано"
+msgstr "Аннотация к сообщению"
 
 #: models.py:1173
 #, fuzzy
 msgid "Post annotations"
-msgstr "Сообщение прокомментировано"
+msgstr "Аннотации к сообщению"
 
 #: models.py:1340
 #, fuzzy
@@ -237,11 +237,11 @@ msgstr "Параметры темы:"
 
 #: models.py:1426
 msgid "Monitor"
-msgstr ""
+msgstr "Монитор"
 
 #: models.py:1427
 msgid "Monitors"
-msgstr ""
+msgstr "Мониторы"
 
 #: models.py:1467 templates/sphene/sphboard/_displayPostForm.html:58
 msgid "Poll"
@@ -254,19 +254,19 @@ msgstr "Опрос"
 
 #: models.py:1483
 msgid "Poll choice"
-msgstr ""
+msgstr "Пункты опроса"
 
 #: models.py:1484
 msgid "Poll choices"
-msgstr ""
+msgstr "Пункты опроса"
 
 #: models.py:1494
 msgid "Poll voter"
-msgstr ""
+msgstr "Участник опроса"
 
 #: models.py:1495
 msgid "Poll voters"
-msgstr ""
+msgstr "Участники опроса"
 
 #: models.py:1500 models.py:1624
 msgid "Signature"
@@ -274,28 +274,28 @@ msgstr "Подпись"
 
 #: models.py:1514
 msgid "Board user profile"
-msgstr ""
+msgstr "Профиль пользователя форума"
 
 #: models.py:1515
 #, fuzzy
 msgid "Board user profiles"
-msgstr "Настройки форума"
+msgstr "Профили пользователей форума"
 
 #: models.py:1558
 msgid "User post count"
-msgstr ""
+msgstr "Количество сообщений участника"
 
 #: models.py:1559
 msgid "User post counts"
-msgstr ""
+msgstr "Количества сообщений участника"
 
 #: models.py:1582
 msgid "Extended category config"
-msgstr ""
+msgstr "Расширенные параметры категории"
 
 #: models.py:1583
 msgid "Extended category configs"
-msgstr ""
+msgstr "Расширенные параметры категории"
 
 #: models.py:1623
 msgid "Board settings"
@@ -343,7 +343,7 @@ msgstr "Обзор форума"
 #: views.py:131 templates/sphene/sphboard/listCategories.html:31
 #: templates/sphene/sphboard/listCategories.html:54
 msgid "Threads"
-msgstr "Темы"
+msgstr "Тем"
 
 #: views.py:339
 #, python-format
@@ -370,12 +370,12 @@ msgstr "Сообщение прокомментировано."
 #: views.py:521 views.py:893
 #, fuzzy
 msgid "Post deleted"
-msgstr "Написать ответ"
+msgstr "Сообщение удалено"
 
 #: views.py:656
 #, fuzzy
 msgid "Post has been appended to thread."
-msgstr "Новая тема"
+msgstr "сообщение добавлено в тему."
 
 #: views.py:658
 #, fuzzy
@@ -385,7 +385,7 @@ msgstr "Тема перемещена."
 #: views.py:674
 #, fuzzy, python-format
 msgid "This post was moved from the thread %(thread_name)s"
-msgstr "Тема была перемещена из категории %(category_name)s"
+msgstr "Тема была перемещена из категории %(thread_name)s"
 
 #: views.py:676
 #, fuzzy, python-format
@@ -394,7 +394,7 @@ msgstr "Тема была перемещена из категории %(categor
 
 #: views.py:742
 msgid "Moved thread into new category."
-msgstr "Тема перемещена."
+msgstr "Тема перемещена в новую категорию.."
 
 #: views.py:753
 #, python-format
@@ -444,12 +444,12 @@ msgstr "Почтовое уведомление удалено."
 
 #: views.py:904
 msgid "All posts deleted"
-msgstr ""
+msgstr "Все сообщения удалены"
 
 #: views.py:906
 #, fuzzy
 msgid "No posts to delete"
-msgstr "Нет сообщений."
+msgstr "Нет сообщений для удаления."
 
 #: templates/sphene/sphboard/_category_monitor.html:4
 #: templates/sphene/sphboard/listCategories.html:17
@@ -533,11 +533,11 @@ msgstr "Предпросмотр"
 #: templates/sphene/sphboard/_displayThreadSummary.html:5
 #, fuzzy
 msgid "Thread summary"
-msgstr "Темы"
+msgstr "Описание темы"
 
 #: templates/sphene/sphboard/_displayThreadSummary.html:12
 msgid "older posts not shown..."
-msgstr ""
+msgstr "старые сообщения не показаны..."
 
 #: templates/sphene/sphboard/_latest_posts_of_user.html:15
 #: templates/sphene/sphboard/showThread.html:116
@@ -551,7 +551,7 @@ msgstr "Сообщение прокомментировано"
 
 #: templates/sphene/sphboard/_new_thread_link.html:5
 msgid "Post New Thread"
-msgstr "Новая тема"
+msgstr "Создать новую тему"
 
 #: templates/sphene/sphboard/_new_thread_link.html:9
 msgid "You have no permission to create a new thread."
@@ -571,27 +571,27 @@ msgstr "Зарегистрирован"
 
 #: templates/sphene/sphboard/admin_user_posts.html:20
 msgid "Back to users list"
-msgstr ""
+msgstr "Назад к списку пользователей"
 
 #: templates/sphene/sphboard/admin_user_posts.html:22
 msgid "Posts submitted by user:"
-msgstr ""
+msgstr "Сообщения, опубликованные пользователем:"
 
 #: templates/sphene/sphboard/admin_user_posts.html:24
 msgid "Are you sure you want to delete ALL posts of this user?"
-msgstr ""
+msgstr "Вы действительно хотите удалить ВСЕ сообщения этого пользователя?"
 
 #: templates/sphene/sphboard/admin_user_posts.html:24
 msgid "Delete all posts of this user"
-msgstr ""
+msgstr "Удалить все сообщения этого пользователя"
 
 #: templates/sphene/sphboard/admin_user_posts.html:30
 msgid "Published"
-msgstr ""
+msgstr "Опубликовано"
 
 #: templates/sphene/sphboard/admin_user_posts.html:31
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 #: templates/sphene/sphboard/admin_user_posts.html:39
 #, fuzzy
@@ -600,17 +600,17 @@ msgstr "Просмотры"
 
 #: templates/sphene/sphboard/admin_user_posts.html:40
 msgid "Are you sure you want to delete this post?"
-msgstr ""
+msgstr "Вы действительно хотите удалить это сообщение?"
 
 #: templates/sphene/sphboard/admin_user_posts.html:40
 #: templates/sphene/sphboard/hide.html:23
 #: templates/sphene/sphboard/showThread.html:99
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: templates/sphene/sphboard/admin_user_posts.html:45
 msgid "User didn't publish any posts yet"
-msgstr ""
+msgstr "Пользователь пока не оставил ни одного сообщения"
 
 #: templates/sphene/sphboard/annotate.html:10
 #, python-format
@@ -632,24 +632,26 @@ msgstr "Сохранить"
 #: templates/sphene/sphboard/hide.html:10
 #, fuzzy, python-format
 msgid "Delete post: %(subject)s by "
-msgstr "Прокомментировать сообщение: '%(subject)s' "
+msgstr "Удалить сообщение: '%(subject)s' от "
 
 #: templates/sphene/sphboard/hide.html:17
 msgid ""
 "Deleted post won't be visible to anyone. Are you sure you want to do that?"
-msgstr ""
+msgstr "Удалённое сообщение не будет видно кому либо. Вы действительно хотите это выполнить?"
 
 #: templates/sphene/sphboard/hide.html:19
 msgid ""
 "You're trying to delete the root post of thread. All posts under it will be "
 "deleted too. Deleted post won't be visible to anyone. Are you sure you want "
 "to do that?"
-msgstr ""
+msgstr "Вы пытаетесь удалить корневое сообщение в теме. Все сообщения ниже будут"
+"также удалены. Удалённые сообщения не будут видимы кому либо. Вы действительо"
+"хотите выполнить это?"
 
 #: templates/sphene/sphboard/hide.html:23
 #, fuzzy, python-format
 msgid "or <a href=\"%(posturl)s\">go back</a> to thread"
-msgstr "В <a href=\"%(post_url)s\">%(latest_post)s</a>"
+msgstr "или <a href=\"%(posturl)s\"вернуться в тему</a>"
 
 #: templates/sphene/sphboard/listCategories.html:9
 msgid "Latest"
@@ -731,52 +733,53 @@ msgstr "Переместить тему"
 #, python-format
 msgid ""
 "Moving post: <strong>%(subject)s</strong> by <strong>%(postauthor)s</strong>"
-msgstr ""
+msgstr "Перемещение сообщения: <strong>%(subject)s</strong> автора <strong>%(postauthor)s</strong>"
 
 #: templates/sphene/sphboard/move_post_1.html:11
 #: templates/sphene/sphboard/move_post_2.html:11
 #: templates/sphene/sphboard/move_post_3.html:15
 msgid "Step 1"
-msgstr ""
+msgstr "Шаг 1"
 
 #: templates/sphene/sphboard/move_post_1.html:11
 #: templates/sphene/sphboard/move_post_2.html:11
 #: templates/sphene/sphboard/move_post_3.html:15
 msgid "Step 2"
-msgstr ""
+msgstr "Шаг 2"
 
 #: templates/sphene/sphboard/move_post_1.html:11
 #: templates/sphene/sphboard/move_post_2.html:11
 #: templates/sphene/sphboard/move_post_3.html:15
 msgid "Step 3"
-msgstr ""
+msgstr "Шаг 3"
 
 #: templates/sphene/sphboard/move_post_1.html:13
 #, python-format
 msgid ""
 "Select target category to move post <strong>%(subject)s</strong> into. Later "
 "you'll be able to select destination thread."
-msgstr ""
+msgstr "Выберите категорию назначения для перемещения в неё сообщения <strong>%(subject)s</strong>"
+"Вы можете выбрать тему назначения позже."
 
 #: templates/sphene/sphboard/move_post_1.html:17
 #, fuzzy
 msgid "Category name"
-msgstr "Категория"
+msgstr "Название категории"
 
 #: templates/sphene/sphboard/move_post_1.html:18
 #: templates/sphene/sphboard/move_post_2.html:21
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: templates/sphene/sphboard/move_post_1.html:22
 #, fuzzy
 msgid "source category"
-msgstr "Категория"
+msgstr "Категория источник"
 
 #: templates/sphene/sphboard/move_post_1.html:23
 #: templates/sphene/sphboard/move_post_2.html:26
 msgid "select"
-msgstr ""
+msgstr "выбрать"
 
 #: templates/sphene/sphboard/move_post_2.html:10
 #: templates/sphene/sphboard/move_post_3.html:13
@@ -784,7 +787,8 @@ msgstr ""
 msgid ""
 "Moving post: <strong>%(subject)s</strong> by <strong>%(postauthor)s</strong> "
 "into category <strong>%(categoryname)s</strong>"
-msgstr ""
+msgstr "Перемещение сообщения <strong>%(subject)s</strong> автора <strong>%(postauthor)s</strong> "
+"в категорию <strong>%(categoryname)s</strong>"
 
 #: templates/sphene/sphboard/move_post_2.html:14
 #, python-format
@@ -796,12 +800,18 @@ msgid ""
 "      or select target thread below to append post <strong>%(subject)s</"
 "strong> to it:"
 msgstr ""
+"Кликните <strong><a href=\"%(move_post_3_ic_url)s\">здесь</a></strong> чтобы переместить "
+"сообщение <strong>%(subject)s</strong>\n"
+"      прямо в категорию <strong>%(categoryname)s</strong> (новая тема "
+"будет создана при необходимости)\n"
+"      или выберите тему назначения ниже для добавления сообщения <strong>%(subject)s</"
+"strong> в неё:"
 
 #: templates/sphene/sphboard/move_post_2.html:20
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:8
 #, fuzzy
 msgid "Thread"
-msgstr "Темы"
+msgstr "Тема"
 
 #: templates/sphene/sphboard/move_post_3.html:11
 #, python-format
@@ -809,16 +819,18 @@ msgid ""
 "Moving post: <strong>%(subject)s</strong> by <strong>%(postauthor)s</strong> "
 "into thread <strong>%(targetthreadsubject)s</strong>"
 msgstr ""
+"Перемещение сообщения: <strong>%(subject)s</strong> от <strong>%(postauthor)s</strong> "
+"в тему <strong>%(targetthreadsubject)s</strong>"
 
 #: templates/sphene/sphboard/move_post_3.html:17
 #, fuzzy, python-format
 msgid "Move post: %(subject)s by "
-msgstr "Прокомментировать сообщение: '%(subject)s' "
+msgstr "Переместить сообщение: '%(subject)s' от"
 
 #: templates/sphene/sphboard/move_post_3.html:24
 #, fuzzy
 msgid "Move Post"
-msgstr "Сделать скрытым"
+msgstr "Переместить сообщение"
 
 #: templates/sphene/sphboard/new_post_email.txt:3
 #, python-format
@@ -828,6 +840,10 @@ msgid ""
 "\n"
 "visit http://%(baseurl)s%(abs_url)s to view the post.\n"
 msgstr ""
+"\n"
+"Участник %(full_name)s только что создал тему на форуме за которым вы следите:\n"
+"\n"
+"посетитеt http://%(baseurl)s%(abs_url)s чтобы прочитать сообщение.\n"
 
 #: templates/sphene/sphboard/post.html:14
 msgid "Editing post"
@@ -876,7 +892,7 @@ msgstr "Редактировать"
 
 #: templates/sphene/sphboard/showThread.html:102
 msgid "Move"
-msgstr ""
+msgstr "Переместить"
 
 #: templates/sphene/sphboard/showThread.html:105
 msgid "Quote"
@@ -938,25 +954,25 @@ msgstr "Войдите в систему, чтобы написать ответ
 
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:2
 msgid "Forum monitoring - e-mail notifications"
-msgstr ""
+msgstr "Мониторинг форума - уведомления электропочтой"
 
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:13
 msgid "Whole board monitoring"
-msgstr ""
+msgstr "Слежение за всем форумом"
 
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:19
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:22
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:24
 msgid "disable"
-msgstr ""
+msgstr "отключить"
 
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:33
 msgid "You're not monitoring any threads yet"
-msgstr ""
+msgstr "Вы пока не следите ни за одной темой"
 
 #: templates/sphene/sphboard/templatetags/_show_active_monitors.html:33
 msgid "User is not monitoring any threads yet"
-msgstr ""
+msgstr "Пользователь пока не следит ни за одной темой"
 
 #: templates/sphene/sphboard/wikimacros/news.html:10
 msgid "Comments"

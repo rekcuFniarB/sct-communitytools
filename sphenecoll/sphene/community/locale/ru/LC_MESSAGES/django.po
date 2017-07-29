@@ -690,7 +690,8 @@ msgstr ""
 msgid ""
 "The request was made by a user with the IP %(remote_addr)s,\n"
 "if you did not make this request you can safely ignore this email."
-msgstr "Если вы не делали этот запрос, не обращайте внимания на это письмо."
+msgstr "Запрос сделан с IP адреса %(remote_addr)s,\n"
+"Если вы не делали этот запрос, не обращайте внимания на это письмо."
 
 #: templates/sphene/community/accounts/forgot_sent.html:4
 msgid "A new password was generated for your account."
