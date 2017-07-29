@@ -17,7 +17,7 @@ class LatestBlogPosts(Feed):
     title_template = 'sphene/sphblog/feeds/latestposts_title.html'
     description_template = 'sphene/sphblog/feeds/latestposts_description.html'
 
-    def get_object(self, request, category_id = None):
+    def get_object(self, request, category_id = None, **kwargs):
         group = get_current_group()
         categories = get_board_categories(group)
         if not category_id:

@@ -15,14 +15,16 @@ defaultdict = { 'group': settings.SPH_SETTINGS['group']['name'],
 
 urlpatterns = [
         url(r'^feeds/latestposts/$', LatestBlogPosts(),
-                            { 
-                              'noGroup': True,
-                              },
+                            #{ 
+                              #'noGroup': True,
+                              #},
+                              defaultdict,
                             name = 'sphblog-feeds'),
         url(r'^feeds/latestposts/(?P<category_id>\d+)/$', LatestBlogPosts(),
-                            { 
-                              'noGroup': True,
-                              },
+                            #{ 
+                              #'noGroup': True,
+                              #},
+                            defaultdict,
                             name = 'sphblog-feeds'),
 
                        url(r'^$', sphblog_views.blogindex, defaultdict, name='sphblog_index'),
