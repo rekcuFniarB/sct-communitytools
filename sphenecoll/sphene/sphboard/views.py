@@ -3,7 +3,7 @@ from datetime import timedelta
 from django import template
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.list import ListView as object_list
+from django.views.generic.list import ListView
 from django.template.context import RequestContext
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.utils import timezone
@@ -120,7 +120,7 @@ def showCategory(request, group, category_id = None, showType = None, slug = Non
         thread_list = thread_list.order_by( '-thread_latest_postdate' )
     thread_list = thread_list.select_related('root_post', 'latest_post', 'root_post__category', 'root_post__author', 'latest_post__author')
 
-    res =  object_list( request = request,
+    res =  ListView( request = request,
                         queryset = thread_list,
                         template_name = templateName,
                         extra_context = context,
@@ -132,7 +132,7 @@ def showCategory(request, group, category_id = None, showType = None, slug = Non
     res.sph_lastmodified = True
     return res
 
-class ShowCategoryClass(object_list):
+class ShowCategoryClass(ListView):
     #template_name = 'sphene/sphboard/listCategories.html'
     paginate_by = 10
     allow_empty = True
@@ -193,7 +193,6 @@ class ShowCategoryClass(object_list):
             context['search_posts_url'] = sph_reverse('sphsearchboard_posts')
         except:
             pass
-    
         templateName = 'sphene/sphboard/listCategories.html'
         if categoryObject == None:
             if showType != 'threads':
@@ -221,23 +220,24 @@ class ShowCategoryClass(object_list):
             thread_list = thread_list.order_by( '-thread_latest_postdate' )
         thread_list = thread_list.select_related('root_post', 'latest_post', 'root_post__category', 'root_post__author', 'latest_post__author')
         
-        self._data = {
+        data = {
                 'queryset': thread_list,
                 'template_name': templateName,
                 'context': context,
             }
         self.template_name = templateName
         self.context_object_name = 'thread_list'
+        return data
     
     def get_context_data(self, **kwargs):
         context = super(ShowCategoryClass, self).get_context_data(**kwargs)
         if not self._data:
-            self._get_data()
+            self._data = self._get_data()
         context.update(self._data['context'])
         return context
     def get_queryset(self):
         if not self._data:
-            self._get_data()
+            self._data = self._get_data()
         return self._data['queryset']
 
 
@@ -267,36 +267,36 @@ def listThreads(request, group, category_id):
                                    { 'threadlist': threadlist, })
 
 
-def showThread(request, thread_id, group = None, slug = None):
-    thread = get_object_or_404(Post.objects, pk = thread_id )
-    if not thread.category.has_view_permission(request.user):
-        raise PermissionDenied()
-    thread.viewed( request.session, request.user )
+#def showThread(request, thread_id, group = None, slug = None):
+    #thread = get_object_or_404(Post.objects, pk = thread_id )
+    #if not thread.category.has_view_permission(request.user):
+        #raise PermissionDenied()
+    #thread.viewed( request.session, request.user )
 
-    sphdata = get_current_sphdata()
-    if sphdata != None: sphdata['subtitle'] = thread.subject
+    #sphdata = get_current_sphdata()
+    #if sphdata != None: sphdata['subtitle'] = thread.subject
 
-    category_type = thread.category.get_category_type()
-    template_name = category_type.get_show_thread_template()
+    #category_type = thread.category.get_category_type()
+    #template_name = category_type.get_show_thread_template()
 
-    res =  object_list( request = request,
-                        #queryset = Post.objects.filter( Q( pk = thread_id ) | Q( thread = thread ) ).order_by('postdate'),
-                        queryset = thread.get_all_posts().order_by('postdate'),
-                        allow_empty = True,
-                        template_name = template_name,
-                        extra_context = { 'thread': thread,
-                                          'allowPosting': thread.allowPosting( request.user ),
-                                          'postSubject': 'Re: ' + thread.subject,
-                                          'category_type': category_type,
-                                          },
-                        template_object_name = 'post',
-                        paginate_by = get_sph_setting( 'board_post_paging' ),
-                        )
+    #res =  ListView( request = request,
+                        ##queryset = Post.objects.filter( Q( pk = thread_id ) | Q( thread = thread ) ).order_by('postdate'),
+                        #queryset = thread.get_all_posts().order_by('postdate'),
+                        #allow_empty = True,
+                        #template_name = template_name,
+                        #extra_context = { 'thread': thread,
+                                          #'allowPosting': thread.allowPosting( request.user ),
+                                          #'postSubject': 'Re: ' + thread.subject,
+                                          #'category_type': category_type,
+                                          #},
+                        #template_object_name = 'post',
+                        #paginate_by = get_sph_setting( 'board_post_paging' ),
+                        #)
 
-    res.sph_lastmodified = thread.get_latest_post().postdate
-    return res
+    #res.sph_lastmodified = thread.get_latest_post().postdate
+    #return res
 
-class showThreadClass(object_list):
+class showThreadClass(ListView):
     _data = None
     context_object_name = 'post_list'
     allow_empty = True
@@ -324,8 +324,6 @@ class showThreadClass(object_list):
             }
         self.paginate_by = get_sph_setting( 'board_post_paging' )
         self.template_name = template_name
-        print 'DEBUG: template:', template_name
-        print 'DEBUG: subject:', thread.subject
         return context
     def get_context_data(self, **kwargs):
         context = super(showThreadClass, self).get_context_data(**kwargs)
@@ -731,7 +729,7 @@ def move_post_2(request, group, post_id, category_id):
     category = Category.objects.get(pk=category_id)
     thread_list = category.get_thread_list().exclude(root_post=thread.pk).order_by('-thread_latest_postdate')
 
-    res =  object_list(request = request,
+    res =  ListView(request = request,
                        queryset = thread_list,
                        allow_empty = True,
                        template_name = "sphene/sphboard/move_post_2.html",
@@ -1095,7 +1093,7 @@ def admin_user_posts(request, group, user_id):
     context = {'author':user,
                'orderby':orderby}
 
-    res =  object_list( request = request,
+    res =  ListView( request = request,
                         queryset = post_list,
                         template_name = template_name,
                         template_object_name = 'post',

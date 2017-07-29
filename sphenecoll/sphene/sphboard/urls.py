@@ -26,7 +26,7 @@ urlpatterns = [
                         url(r'^show/(?P<category_id>\d+)/(?P<slug>.+)/$', boardViews.ShowCategoryClass.as_view(), defaultdict, name = 'sphboard_show_category'),
                         url(r'^show/(?P<category_id>\d+)/$', boardViews.ShowCategoryClass.as_view(), defaultdict, name = 'sphboard_show_category_without_slug'),
                         url(r'^list_threads/(?P<category_id>\d+)/$', boardViews.listThreads, defaultdict),
-                        url(r'^latest/(?P<category_id>\d+)/$', boardViews.showCategory, mergedict(defaultdict, { 'showType': 'threads' }), name = 'sphboard_latest'),
+                        url(r'^latest/(?P<category_id>\d+)/$', boardViews.ShowCategoryClass.as_view(), mergedict(defaultdict, { 'showType': 'threads' }), name = 'sphboard_latest'),
                         url(r'^thread/(?P<thread_id>\d+)/(?P<slug>.+)/$', boardViews.showThreadClass.as_view(), defaultdict, name = 'sphboard_show_thread'),
                         url(r'^thread/(?P<thread_id>\d+)/$', boardViews.showThreadClass.as_view(), defaultdict, name = 'sphboard_show_thread_without_slug'),
                         url(r'^options/(?P<thread_id>\d+)/$', boardViews.options, defaultdict, name = 'sphboard_options'),

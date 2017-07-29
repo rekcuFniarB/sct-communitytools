@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import widgets, ModelForm
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.list import ListView as object_list
+from django.views.generic.list import ListView
 from django.template import loader
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -109,22 +109,22 @@ def generatePDF(request, group, snipName):
     
     return response
 
-def history(request, group, snipName):
-    snip = get_object_or_404( WikiSnip,
-                              group = group,
-                              name = snipName )
-    if not snip.has_view_permission():
-        raise PermissionDenied()
-    return object_list( request = request,
-                        queryset = snip.wikisnipchange_set.order_by('-edited'),
-                        template_name = 'sphene/sphwiki/history.html',
-                        allow_empty = True,
-                        extra_context = { 'snipName': snipName,
-                                          'snip': snip,
-                                          },
-                        )
+#def history(request, group, snipName):
+    #snip = get_object_or_404( WikiSnip,
+                              #group = group,
+                              #name = snipName )
+    #if not snip.has_view_permission():
+        #raise PermissionDenied()
+    #return ListView( request = request,
+                        #queryset = snip.wikisnipchange_set.order_by('-edited'),
+                        #template_name = 'sphene/sphwiki/history.html',
+                        #allow_empty = True,
+                        #extra_context = { 'snipName': snipName,
+                                          #'snip': snip,
+                                          #},
+                        #)
 
-class ShowHistoryClass(object_list):
+class ShowHistoryClass(ListView):
     allow_empty = True
     _data = None
     template_name = 'sphene/sphwiki/history.html'
@@ -152,16 +152,16 @@ class ShowHistoryClass(object_list):
             self._data = self._prepare()
         return self._data['snip'].wikisnipchange_set.order_by('-edited')
 
-def recentChanges(request, group):
-    res =  object_list( request = request,
-                        queryset = WikiSnipChange.objects.filter( snip__group = group ).order_by('-edited'),
-                        template_name = 'sphene/sphwiki/recentChanges.html',
-                        allow_empty = True,
-                        )
-    res.sph_lastmodified = True
-    return res
+#def recentChanges(request, group):
+    #res =  ListView( request = request,
+                        #queryset = WikiSnipChange.objects.filter( snip__group = group ).order_by('-edited'),
+                        #template_name = 'sphene/sphwiki/recentChanges.html',
+                        #allow_empty = True,
+                        #)
+    #res.sph_lastmodified = True
+    #return res
 
-class RecentChangesClass(object_list):
+class RecentChangesClass(ListView):
     allow_empty = True
     template_name = 'sphene/sphwiki/recentChanges.html'
     def get_queryset(self):
@@ -232,7 +232,7 @@ def attachment(request, group, snipName):
     if not snip.has_view_permission():
         raise PermissionDenied()
     res = WikiAttachment.objects.filter( snip = snip )
-    return object_list( request = request,
+    return ListView( request = request,
                         queryset = WikiAttachment.objects.filter( snip = snip ),
                         template_name = 'sphene/sphwiki/listAttachments.html',
                         extra_context = { 'snipName': snipName,
@@ -448,7 +448,7 @@ def show_tag_snips(request, group, tag_name):
     # user has permission to view.
     snips = tag_get_models_by_tag(WikiSnip.objects.all(), tag)
 
-    return object_list( request = request,
+    return ListView( request = request,
                         queryset = snips,
                         template_name = 'sphene/sphwiki/list_tag_snips.html',
                         extra_context = { 'tag_name': tag_name,
