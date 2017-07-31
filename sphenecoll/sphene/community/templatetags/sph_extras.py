@@ -349,14 +349,20 @@ def sph_showavatar(user, maxwidth = None):
     avatar_width = None
     avatar_height = None
 
-    get_avatar = get_sph_setting( 'community_user_get_avatar' )
-    if get_avatar is not None:
-        avatarinfo = get_avatar(user)
-        print "asdf %s" % repr(avatarinfo)
-        if avatarinfo is not None:
-            avatar = avatarinfo['url']
-            avatar_width = avatarinfo['width']
-            avatar_height = avatarinfo['height']
+    if profile:
+        gravatar = profile.gravatar
+        if gravatar:
+            avatar, avatar_width, avatar_height = gravatar
+    
+    if avatar is None:
+        get_avatar = get_sph_setting( 'community_user_get_avatar' )
+        if get_avatar is not None:
+            avatarinfo = get_avatar(user)
+            print "asdf %s" % repr(avatarinfo)
+            if avatarinfo is not None:
+                avatar = avatarinfo['url']
+                avatar_width = avatarinfo['width']
+                avatar_height = avatarinfo['height']
 
     if avatar is None:
         if not profile or not profile.avatar:
@@ -376,7 +382,7 @@ def sph_showavatar(user, maxwidth = None):
             avatar_width = maxwidth
         
     log.info("avatar: %s", avatar)
-    return '<img src="%s" width="%dpx" height="%dpx" alt="%s" class="sph_avatar"></img>' % (avatar, avatar_width, avatar_height, _(u'Users avatar'))
+    return '<img src="%s" width="%dpx" height="%dpx" alt="%s" class="sph_avatar">' % (avatar, avatar_width, avatar_height, _(u'Users avatar'))
 
 @register.inclusion_tag('sphene/community/templatetags/_form.html')
 def sph_form(form, submit = ugettext_lazy(u'Submit') ):

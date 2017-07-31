@@ -118,22 +118,28 @@ def community_advprofile_display(sender, signal, request, user, **kwargs):
     avatar = None
     avatar_width = None
     avatar_height = None
-    if not profile.avatar:
-        default_avatar = get_sph_setting( 'community_avatar_default' )
-        if not default_avatar:
-            return None
-        avatar = default_avatar
-        avatar_width = get_sph_setting( 'community_avatar_default_width' )
-        avatar_height = get_sph_setting( 'community_avatar_default_height' )
-    else:
-        avatar = profile.avatar.url
-        avatar_width = profile.avatar_width
-        avatar_height = profile.avatar_height
     
-    ret = '<tr><th>%s</th><td><img src="%s" width="%dpx" height="%dpx" alt="%s"></img></td></tr>' % (_(u'Avatar'), avatar, avatar_width, avatar_height, _(u'Users avatar'))
+    gravatar = profile.gravatar
+    if gravatar:
+        avatar, avatar_width, avatar_height = gravatar
+    else:
+        if not profile.avatar:
+            default_avatar = get_sph_setting( 'community_avatar_default' )
+            if not default_avatar:
+                return None
+            avatar = default_avatar
+            avatar_width = get_sph_setting( 'community_avatar_default_width' )
+            avatar_height = get_sph_setting( 'community_avatar_default_height' )
+        else:
+            avatar = profile.avatar.url
+            avatar_width = profile.avatar_width
+            avatar_height = profile.avatar_height
+    
+    ret = '<tr><th>%s</th><td><img src="%s" width="%dpx" height="%dpx" alt="%s"></td></tr>' % (_(u'Avatar'), avatar, avatar_width, avatar_height, _(u'Users avatar'))
     
     return ret
 
-profile_edit_init_form.connect(community_advprofile_edit_init_form, sender = EditProfileForm)
-profile_edit_save_form.connect(community_advprofile_edit_save_form, sender = EditProfileForm)
-profile_display.connect(community_advprofile_display)
+if not get_sph_setting('use_gravatar', False):
+    profile_edit_init_form.connect(community_advprofile_edit_init_form, sender = EditProfileForm, dispatch_uid='signal_advprofile_edit_form')
+    profile_edit_save_form.connect(community_advprofile_edit_save_form, sender = EditProfileForm, dispatch_uid='signal_advprofile_save_form')
+profile_display.connect(community_advprofile_display, dispatch_uid='signal_advprofile_display')

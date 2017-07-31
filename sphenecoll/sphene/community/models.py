@@ -175,6 +175,22 @@ class CommunityUserProfile(models.Model):
     class Meta:
         verbose_name = ugettext_lazy('Community user profile')
         verbose_name_plural = ugettext_lazy('Community user profiles')
+        
+    @property
+    def gravatar(self):
+        if get_sph_setting('use_gravatar', False):
+            from hashlib import md5 
+            if not self.public_emailaddress:
+                email = User.objects.get(username = self.user).email
+            else:
+                email = self.public_emailaddress
+            avatar_width = get_sph_setting( 'community_avatar_default_width' )
+            avatar_height = get_sph_setting( 'community_avatar_default_height' )
+            email_hash = md5(email).hexdigest()
+            url = 'https://www.gravatar.com/avatar/%s?s=%d&d=identicon' % (email_hash, avatar_width)
+            return (url, avatar_width, avatar_height)
+        else:
+            return None
 
 
 class CommunityUserProfileField(models.Model):
