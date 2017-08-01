@@ -160,7 +160,7 @@ def authorinfo_cachekey(user_id, group_id = None, language_code = None):
         (settings.CACHE_MIDDLEWARE_KEY_PREFIX, str(group_id), str(user_id), language_code)
 
 ## FIXME had to disable caching of this tag due to unresolved problems
-## Consider using template fragment caching
+## Using template fragment caching instead
 ## https://docs.djangoproject.com/en/1.11/topics/cache/#template-fragment-caching
 #@cache_inclusion_tag(register,
                      #'sphene/sphboard/_post_authorinfo.html',

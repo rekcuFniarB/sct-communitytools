@@ -1,5 +1,6 @@
 {% extends "sphene/sphboard/base.html" %}
 {% load i18n %}
+{% load cache %}
 {% load sph_extras %}
 {% load sphboard_extras %}
 {% load sph_pagination %}
@@ -92,7 +93,9 @@
       {% block post_list_element %}
       <tr>
         <td rowspan="2" class="sphboard_post_authorinfo">
-          {% sphboard_post_authorinfo post.author_id %}
+          {% cache 300 post_authorinfo post.author_id %}
+            {% sphboard_post_authorinfo post.author_id %}
+          {% endcache %}
         </td>
         <td class="sphboard_post_subject">
           <div class="board_postdate"><a name="post-{{ post.id }}"></a>{{ post.postdate|date:"Y-m-d H:i:s" }} - <strong>{{ post.subject|escape }}</strong></div>
