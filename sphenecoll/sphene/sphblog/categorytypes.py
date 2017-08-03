@@ -38,7 +38,7 @@ class BlogPostForm(PostForm):
         super(BlogPostForm, self).init_for_category_type(category_type, post)
         if post:
             try:
-                ext = post.blogpostextension_set.get()
+                ext = post.blogpostextension
                 self.__ext_id = ext.id
                 self.fields['tags'].initial = tag_get_labels(post)
                 self.fields['slug'].initial = ext.slug
@@ -66,7 +66,7 @@ class BlogCategoryType(CategoryType):
         if newpost.thread is not None:
             return
         try:
-            ext = newpost.blogpostextension_set.get()
+            ext = newpost.blogpostextension
         except BlogPostExtension.DoesNotExist:
             ext = BlogPostExtension( post = newpost, )
 
@@ -100,7 +100,7 @@ class BlogCategoryType(CategoryType):
 
 
     def get_absolute_url_for_post(self, post):
-        return post.get_thread().blogpostextension_set.get().get_absolute_url()
+        return post.get_thread().blogpostextension.get_absolute_url()
 
     def append_edit_message_to_post(self, post):
         return post.thread is not None

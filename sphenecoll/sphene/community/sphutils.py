@@ -38,9 +38,9 @@ def get_user_displayname(user):
             res = get_displayname(user)
 
         if res is None:
-            profile = user.communityuserprofile_set.all()
-            if profile and profile[0].displayname:
-                res = profile[0].displayname
+            profile = user.communityuserprofile
+            if profile and profile.displayname:
+                res = profile.displayname
             elif (not user.first_name or not user.last_name) or\
                     get_sph_setting( 'community_user_displayname_fallback' ) == 'username':
                 res = user.username

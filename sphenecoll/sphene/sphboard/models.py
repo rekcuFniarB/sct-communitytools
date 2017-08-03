@@ -1246,7 +1246,7 @@ class PostAnnotation(models.Model):
     """
 
     # Only one annotation per post allowed !
-    post = models.ForeignKey(Post, related_name = 'annotation', unique = True, )
+    post = models.OneToOneField(Post, related_name = 'annotation')
     body = models.TextField()
     author = models.ForeignKey(User)
     created = models.DateTimeField( )
@@ -1623,7 +1623,7 @@ class PollVoters(models.Model):
 
 
 class BoardUserProfile(models.Model):
-    user = models.ForeignKey( User, unique = True)
+    user = models.OneToOneField( User )
     signature = models.TextField(ugettext_lazy(u'Signature'), default = '')
     
     markup = models.CharField(ugettext_lazy(u'Markup'), max_length = 250,
@@ -1691,7 +1691,7 @@ signals.post_save.connect(update_post_count,
 
 
 class ExtendedCategoryConfig(models.Model):
-    category = models.ForeignKey( Category, unique = True )
+    category = models.OneToOneField( Category )
 
     subject_label = models.CharField( max_length = 250, blank = True )
     body_label = models.CharField( max_length = 250, blank = True )

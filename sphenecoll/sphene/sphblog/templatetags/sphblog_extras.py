@@ -13,7 +13,7 @@ register = template.Library()
 @register.inclusion_tag('sphene/sphblog/_showblogpost.html', takes_context = True)
 def sphblog_showblogpost(context, post):
     ret = {'post': post,
-           'blogpost': post.blogpostextension_set.get(),
+           'blogpost': post.blogpostextension
            }
     retctx = Context(context)
     retctx.update(ret)

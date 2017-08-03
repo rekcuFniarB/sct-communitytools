@@ -151,7 +151,7 @@ class ApplicationChangelog(models.Model):
 
 
 class CommunityUserProfile(models.Model):
-    user = models.ForeignKey( User, unique = True, verbose_name=ugettext_lazy(u'User'))
+    user = models.OneToOneField( User, verbose_name=ugettext_lazy(u'User'))
     displayname = models.CharField(ugettext_lazy(u'Display name'), max_length = 250)
     public_emailaddress = models.CharField(ugettext_lazy(u'Public email address'), max_length = 250)
 
