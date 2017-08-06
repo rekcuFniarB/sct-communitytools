@@ -743,7 +743,7 @@ def move_post_2(request, group, post_id, category_id):
 class MovePost2(ListView):
     allow_empty = True
     template_name = "sphene/sphboard/move_post_2.html"
-    context_object_name = 'thread'
+    context_object_name = 'thread_list'
     _data = None
     def _prepare(self):
         data = {}
