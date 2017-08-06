@@ -13,7 +13,7 @@
 
 {% block content %}
 
-  <p>{% if search_posts_url %}<a href="{{ search_posts_url }}?category_id={{ category.id }}">Search</a> | {% endif %}<a href="{% sph_url2 sphboard_latest category_id=category_id %}">{% trans "Latest" %}</a> | {% sphboard_displayBreadcrumbsForCategory category 0 1 %}</p>
+  <p>{% if search_posts_url %}<a href="{{ search_posts_url }}?category_id={{ category.id }}">Search</a> | {% endif %}<a href="{% sph_url2 'sphboard_latest' category_id=category_id %}">{% trans "Latest" %}</a> | {% sphboard_displayBreadcrumbsForCategory category 0 1 %}</p>
 
   {% if user.is_authenticated %}
     <p>
@@ -21,10 +21,10 @@
       {% include "sphene/sphboard/_category_monitor.html" %}
     {% else %}
       {% if group.has_monitor %}
-        {% trans "You are currently receiving email notifications on new posts." %} - <a href="{% sph_url2 sphboard_toggle_monitor monitortype="group" object_id=group.id %}">{% trans "Stop notifications" %}</a>
+        {% trans "You are currently receiving email notifications on new posts." %} - <a href="{% sph_url2 'sphboard_toggle_monitor' monitortype="group" object_id=group.id %}">{% trans "Stop notifications" %}</a>
       {% else %}
         {% if rootCategories %}
-          <a href="{% sph_url2 sphboard_toggle_monitor monitortype="group" object_id=group.id %}">{% trans "Notify me by email on new posts." %}</a>
+          <a href="{% sph_url2 'sphboard_toggle_monitor' monitortype="group" object_id=group.id %}">{% trans "Notify me by email on new posts." %}</a>
         {% endif %}
       {% endif %}
     {% endif %}
@@ -77,7 +77,7 @@
           {% if thread.is_moved %}
             <td colspan="4"><small>
             {% blocktrans with thread.get_absolute_url as th_url and thread.subject as th_subject and thread.root_post.category.get_absolute_url as cat_url and thread.root_post.category.name as cat_name %}Thread was moved: <a href="{{ th_url }}">{{ th_subject }}</a> into <a href="{{ cat_url }}">{{ cat_name }}</a>.{% endblocktrans %}
-            {% if thread.allow_deleting_moved %}<a class="delete-moved-info" href="{% url delete_moved_info thread.pk %}">{% trans "delete this information" %}</a>{% endif %}
+            {% if thread.allow_deleting_moved %}<a class="delete-moved-info" href="{% url "delete_moved_info" thread.pk %}">{% trans "delete this information" %}</a>{% endif %}
             </small></td>
           {% else %}
           <td>{% if thread.is_sticky %}<b>{% trans "Sticky:" %}</b> {% endif %}{% if thread.is_hot %}<b>{% trans "Hot:" %}</b> {% endif %}{% if thread.is_poll %}{% trans "Poll:" %} {% endif %}{% if thread.is_closed %}{% trans "Locked:" %} {% endif %}{% block thread_list_subject %}<a href="{{ thread.get_absolute_lastvisit_url }}">{{ thread.subject }}</a>{% endblock %}{% if thread.has_paging %} ( {% sph_pagination thread.get_page_count -1 thread.get_absolute_url_nopaging 'page' 1 %} ){% endif %}<br/><small>{% if isShowLatest %}{% sphboard_displayBreadcrumbsForCategory thread.category 1 %} - {% endif %}{% trans "By" %} {% sphboard_displayUserName thread.author %}</small></td>

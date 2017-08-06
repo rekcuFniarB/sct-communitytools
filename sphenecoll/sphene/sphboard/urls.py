@@ -41,7 +41,7 @@ urlpatterns = [
                         url(r'^move_post_3_cat/(?P<post_id>\d+)/(?P<category_id>\d+)/$', boardViews.move_post_3, defaultdict, name='sphboard_move_post_3'),
                         url(r'^move_post_3_thr/(?P<post_id>\d+)/(?P<category_id>\d+)/(?P<thread_id>\d+)/$', boardViews.move_post_3, defaultdict, name='sphboard_move_post_3'),
                         url(r'^delete_moved_info/(?P<pk>\d+)/$', boardViews.delete_moved_info, defaultdict, name='delete_moved_info'),
-                        url(r'^vote/(?P<thread_id>\d+)/$', boardViews.vote, defaultdict),
+                        url(r'^vote/(?P<thread_id>\d+)/$', boardViews.vote, defaultdict, name='sphboard_vote'),
                         url(r'^togglemonitor_(?P<monitortype>\w+)/(?P<object_id>\d+)/(?P<monitor_user_id>\d+)/$', boardViews.toggle_monitor, defaultdict, name = 'sphboard_toggle_user_monitor'),
                         url(r'^togglemonitor_(?P<monitortype>\w+)/(?P<object_id>\d+)/$', boardViews.toggle_monitor, defaultdict, name = 'sphboard_toggle_monitor'),
                         url(r'^catchup/(?P<category_id>\d+)/$', boardViews.catchup, defaultdict, name='sphboard_catchup'),
