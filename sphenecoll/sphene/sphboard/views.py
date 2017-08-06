@@ -740,6 +740,39 @@ def move_post_2(request, group, post_id, category_id):
                       )
     return res
 
+class MovePost2(ListView):
+    allow_empty = True
+    template_name = "sphene/sphboard/move_post_2.html"
+    context_object_name = 'thread'
+    _data = None
+    def _prepare(self):
+        data = {}
+        post_id = self.kwargs.get('post_id', None)
+        category_id = self.kwargs.get('category_id', None)
+        post = Post.objects.get(pk=post_id)
+        if not post.allow_moving_post():
+            raise PermissionDenied()
+        paginate_by = get_sph_setting('board_post_paging')
+        category = Category.objects.get(pk=category_id)
+        data = {
+            'post': post,
+            'category': category
+            }
+        return data
+    def get_queryset(self):
+        if not self._data:
+            self._data = self._prepare()
+        category = self._data['category']
+        post = self._data['post']
+        thread = post.get_thread()
+        thread_list = category.get_thread_list().exclude(root_post=thread.pk).order_by('-thread_latest_postdate')
+        return thread_list
+    def get_context_data(self, **kwargs):
+        context = super(MovePost2, self).get_context_data(**kwargs)
+        if not self._data:
+            self._data = self._prepare()
+        context.update(self._data)
+        return context
 
 def move_post_3(request, group, post_id, category_id, thread_id=None):
     """
