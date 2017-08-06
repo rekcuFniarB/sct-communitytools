@@ -279,6 +279,7 @@ def attachmentEdit(request, group, snipName, attachmentId = None):
     class AttachmentFormNew(ModelForm):
         class Meta:
             model = WikiAttachment
+            fields = ['fileupload', 'description']
     
     attachment = None
     if attachmentId is None:
