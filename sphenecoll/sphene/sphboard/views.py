@@ -927,6 +927,9 @@ def move(request, group, thread_id):
         except PostAnnotation.DoesNotExist:
             # Ignore for now ..
             pass
+        except:
+            # FIXME
+            pass
     if request.method == 'POST':
         form = MoveAndAnnotateForm(request.POST)
         if form.is_valid():
