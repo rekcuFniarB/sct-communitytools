@@ -22,7 +22,7 @@ logger = logging.getLogger('sphene.community.models')
 
 
 class Group(models.Model):
-    name = models.CharField(max_length = 250)
+    name = models.CharField(max_length = 250, unique = True)
     longname = models.CharField(max_length = 250)
     default_theme = models.ForeignKey('Theme', null = True, blank = True)
     parent = models.ForeignKey('Group', null = True, blank = True)
