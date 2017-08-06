@@ -752,7 +752,7 @@ class MovePost2(ListView):
         post = Post.objects.get(pk=post_id)
         if not post.allow_moving_post():
             raise PermissionDenied()
-        paginate_by = get_sph_setting('board_post_paging')
+        self.paginate_by = get_sph_setting('board_post_paging')
         category = Category.objects.get(pk=category_id)
         data = {
             'post': post,
