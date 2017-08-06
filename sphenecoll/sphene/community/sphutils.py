@@ -38,7 +38,10 @@ def get_user_displayname(user):
             res = get_displayname(user)
 
         if res is None:
-            profile = user.communityuserprofile
+            try:
+                profile = user.communityuserprofile
+            except:
+                profile = None
             if profile and profile.displayname:
                 res = profile.displayname
             elif (not user.first_name or not user.last_name) or\
