@@ -14,8 +14,19 @@ class SelectCategoryWidget(forms.Widget):
             output.append(u'<option value="%s">%s%s</option>' % (category.id, u'&nbsp;' * (depth*5),category.name))
             self._print_category_option(output, category.get_children(), depth+1)
 
+    def build_attrs(self, base_attrs, extra_attrs=None, **kwargs):
+        """
+        Helper function for building an attribute dictionary.
+        This is combination of the same method from Django<=1.10 and Django1.11+
+        Copied from https://github.com/django-ckeditor/django-ckeditor/pull/364/files
+        """
+        attrs = dict(base_attrs, **kwargs)
+        if extra_attrs:
+            attrs.update(extra_attrs)
+        return attrs
+
     def render(self, name, value, attrs=None):
-        final_attrs = self.build_attrs(attrs, name=name)
+        final_attrs = self.build_attrs(self.attrs, attrs, name=name)
         output = [u'<select%s><option value="">%s</option>' % (forms.util.flatatt(final_attrs), _(u'-- Select Category --'))]
 
         # Load all root categories and iterate them...
