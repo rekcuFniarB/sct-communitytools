@@ -51,3 +51,4 @@ admin.site.register(models.Role, RoleAdmin)
 
 admin.site.register(models.RoleMember)
 
+admin.site.register(models.Tag)
