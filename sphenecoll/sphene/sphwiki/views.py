@@ -442,16 +442,30 @@ def editSnip(request, group, snipName, versionId = None):
                   )
 
 
-def show_tag_snips(request, group, tag_name):
-    tag = Tag.objects.get( group = group, name__exact = tag_name )
-    # OK .. we need to find all wiki snips in the current group on which the 
-    # user has permission to view.
-    snips = tag_get_models_by_tag(WikiSnip.objects.all(), tag)
+#def show_tag_snips(request, group, tag_name):
+    #tag = Tag.objects.get( group = group, name__exact = tag_name )
+    ## OK .. we need to find all wiki snips in the current group on which the 
+    ## user has permission to view.
+    #snips = tag_get_models_by_tag(WikiSnip.objects.all(), tag)
 
-    return ListView( request = request,
-                        queryset = snips,
-                        template_name = 'sphene/sphwiki/list_tag_snips.html',
-                        extra_context = { 'tag_name': tag_name,
-                                          },
-                        allow_empty = True,
-                        )
+    #return ListView( request = request,
+                        #queryset = snips,
+                        #template_name = 'sphene/sphwiki/list_tag_snips.html',
+                        #extra_context = { 'tag_name': tag_name,
+                                          #},
+                        #allow_empty = True,
+                        #)
+
+class ShowTagSnips(ListView):
+    allow_empty = True
+    template_name = 'sphene/sphwiki/list_tag_snips.html'
+    def get_queryset(self):
+        tag_name = self.kwargs.get('tag_name', None)
+        group = self.kwargs.get('group', None)
+        tag = Tag.objects.get( group = group, name__exact = tag_name )
+        snips = tag_get_models_by_tag(WikiSnip.objects.all(), tag)
+        return snips
+    def get_context_data(self, **kwargs):
+        context = super(ShowTagSnips, self).get_context_data(**kwargs)
+        context['tag_name'] = self.kwargs.get('tag_name', None)
+        return context

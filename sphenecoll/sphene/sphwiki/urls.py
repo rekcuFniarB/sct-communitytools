@@ -26,5 +26,5 @@ urlpatterns.extend([
                         url(r'^attachments/create/'   + snip + r'/$', views.attachmentCreate, defaultdict, name='sphene-sphwiki-attachmentCreate'),
                         url(r'^attachments/list/'   + snip + r'/$', views.attachment, defaultdict, name='sphene-sphwiki-attachment'),
 
-                        url(r'^tag/(?P<tag_name>\w+)/$', views.show_tag_snips, defaultdict, name = 'sphwiki_show_tag_snips'),
+                        url(r'^tag/(?P<tag_name>\w+)/$', views.ShowTagSnips.as_view(), defaultdict, name = 'sphwiki_show_tag_snips'),
                   ])
