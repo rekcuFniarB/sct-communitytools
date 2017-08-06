@@ -107,7 +107,7 @@ def blogindex_redirect(request, group, category_id = None, page = 1, year=None, 
     category_info = get_category_info(category_id = category_id,
                                       group = group)
     if not category_info:
-        return Http404
+        raise Http404
     category = category_info[1]
     return HttpResponsePermanentRedirect(category.get_absolute_url())
 
