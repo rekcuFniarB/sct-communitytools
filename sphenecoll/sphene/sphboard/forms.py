@@ -86,10 +86,12 @@ class PostForm(forms.Form):
 
 
 class PostPollForm(forms.Form):
-    question = forms.CharField( label = _( u'Question' ) )
+    question = forms.CharField( label = _( u'Question' ), disabled = True )
     answers = forms.CharField( label = _( u'Answers (1 per line)' ),
+                              disabled = True,
                                widget = forms.Textarea( attrs = { 'rows': 5, 'cols': 80 } ) )
     choicesPerUser = forms.IntegerField( label = _(u'Allowed Choices per User'),
+                                         disabled = True,
                                          help_text = _(u'Enter how many answers a user can select.'),
                                          min_value = 1,
                                          max_value = 100,
