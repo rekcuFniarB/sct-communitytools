@@ -227,18 +227,44 @@ def diff(request, group, snipName, changeId = None):
                                args)
 
     
-def attachment(request, group, snipName):
-    snip = WikiSnip.objects.get( name__exact = snipName, group = group )
-    if not snip.has_view_permission():
-        raise PermissionDenied()
-    res = WikiAttachment.objects.filter( snip = snip )
-    return ListView( request = request,
-                        queryset = WikiAttachment.objects.filter( snip = snip ),
-                        template_name = 'sphene/sphwiki/listAttachments.html',
-                        extra_context = { 'snipName': snipName,
-                                          'snip': snip,
-                                          },
-                        allow_empty = True )
+#def attachment(request, group, snipName):
+    #snip = WikiSnip.objects.get( name__exact = snipName, group = group )
+    #if not snip.has_view_permission():
+        #raise PermissionDenied()
+    #res = WikiAttachment.objects.filter( snip = snip )
+    #return ListView( request = request,
+                        #queryset = WikiAttachment.objects.filter( snip = snip ),
+                        #template_name = 'sphene/sphwiki/listAttachments.html',
+                        #extra_context = { 'snipName': snipName,
+                                          #'snip': snip,
+                                          #},
+                        #allow_empty = True )
+
+class AttachmentsList(ListView):
+    template_name = 'sphene/sphwiki/listAttachments.html'
+    allow_empty = True
+    _data = None
+    def _prepare(self):
+        snipName = self.kwargs.get('snipName', None)
+        group = self.kwargs.get('group', None)
+        snip = WikiSnip.objects.get( name__exact = snipName, group = group )
+        data = {
+            'snipName': snipName,
+            'snip': snip,
+        }
+        return data
+    def get_queryset(self):
+        if not self._data:
+            self._data = self._prepare()
+        snip = self._data['snip']
+        queryset = WikiAttachment.objects.filter( snip = snip )
+        return queryset
+    def get_context_data(self, **kwargs):
+        if not self._data:
+            self._data = self._prepare()
+        context = super(AttachmentsList, self).get_context_data(**kwargs)
+        context.update(self._data)
+        return context
 
 def attachmentCreate(request, group, snipName, attachmentId = None):
     """ Sick workaround for reverse lookup. """

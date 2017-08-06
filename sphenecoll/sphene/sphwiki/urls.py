@@ -24,7 +24,7 @@ urlpatterns.extend([
                         url(r'^diff/'          + snip + r'/(?P<changeId>\d+)/$', views.diff, defaultdict, name = 'sphene-sphwiki-diff'),
                         url(r'^attachments/edit/'   + snip + r'/(?P<attachmentId>\d+)/$', views.attachmentEdit, defaultdict),
                         url(r'^attachments/create/'   + snip + r'/$', views.attachmentCreate, defaultdict, name='sphene-sphwiki-attachmentCreate'),
-                        url(r'^attachments/list/'   + snip + r'/$', views.attachment, defaultdict, name='sphene-sphwiki-attachment'),
+                        url(r'^attachments/list/'   + snip + r'/$', views.AttachmentsList.as_view(), defaultdict, name='sphene-sphwiki-attachment'),
 
                         url(r'^tag/(?P<tag_name>\w+)/$', views.ShowTagSnips.as_view(), defaultdict, name = 'sphwiki_show_tag_snips'),
                   ])
