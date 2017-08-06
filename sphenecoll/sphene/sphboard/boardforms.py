@@ -27,7 +27,7 @@ class SelectCategoryWidget(forms.Widget):
 
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(self.attrs, attrs, name=name)
-        output = [u'<select%s><option value="">%s</option>' % (forms.util.flatatt(final_attrs), _(u'-- Select Category --'))]
+        output = [u'<select%s><option value="">%s</option>' % (forms.utils.flatatt(final_attrs), _(u'-- Select Category --'))]
 
         # Load all root categories and iterate them...
         group = get_current_group()
