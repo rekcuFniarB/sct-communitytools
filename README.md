@@ -134,5 +134,5 @@ Add special sphene settings:
 
 Run `manage.py migrate`.
 
-See also [original README](blob/master/README).
+See also [original README](README).
 
